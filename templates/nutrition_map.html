@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='Hemegene Logo.png') }}">
+    <title>Hemegene &#946; - Nutrition Map</title>
+
+    <!-- Google Font: DM Sans -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap"
+        rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: linear-gradient(135deg, #fbf8fc 0%, #e8daea 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Responsive Footer Adjustments */
+        @media (max-width: 768px) {
+            .footer-container {
+                padding-top: 20px !important;
+                padding-bottom: 20px !important;
+            }
+
+            .footer-logo {
+                height: 65px !important;
+            }
+
+            .col-md-6.mt-4.mt-md-0 {
+                margin-top: 1.5rem !important;
+            }
+        }
+
+        .navbar {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            background: rgba(219, 188, 223, 0.85) !important;
+            backdrop-filter: blur(10px);
+        }
+
+        .map-container {
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(112, 74, 116, 0.08);
+            padding: 40px;
+            margin-top: 50px;
+            margin-bottom: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(20px);
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .map-container:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 60px rgba(112, 74, 116, 0.12);
+        }
+
+        .page-title {
+            color: #5a355e;
+            font-weight: 800;
+            text-align: left;
+            margin-bottom: 8px;
+            font-size: 2.4rem;
+            letter-spacing: -0.5px;
+        }
+
+        .page-subtitle {
+            text-align: left;
+            color: #8c6b8f;
+            font-size: 1.15rem;
+            margin-bottom: 35px;
+            font-weight: 400;
+        }
+
+        /* Highcharts overrides */
+        .highcharts-tooltip-box {
+            fill: none;
+            stroke-width: 0;
+        }
+
+        .highcharts-tooltip {
+            filter: drop-shadow(0 10px 30px rgba(112, 74, 116, 0.15));
+            transition: all 0.2s ease;
+        }
+
+        #regions_div {
+            width: 100%;
+            height: 750px;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Mobile specific adjustments to remove empty whitespace */
+        @media (max-width: 768px) {
+            #regions_div {
+                height: 400px;
+            }
+
+            .map-container {
+                padding: 20px;
+                margin-top: 25px;
+                margin-bottom: 25px;
+            }
+
+            h3.page-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/highcharts@11/highmaps.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/@highcharts/map-collection/countries/in/custom/in-all-disputed.js"></script>
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function () {
+            // Load nutrition data created by app.py
+            const nutritionData = {{ state_nutrition_data | tojson | safe
+        }};
+
+        const statesData = [
+            ['andhra pradesh', 120, 45, '1,200', 'Growing awareness in coastal areas', 'Andhra Pradesh'],
+            ['arunanchal pradesh', 40, 5, '100', 'Need outreach in remote areas', 'Arunachal Pradesh'],
+            ['assam', 100, 30, '800', 'Stable screening rate', 'Assam'],
+            ['bihar', 150, 60, '2,500', 'High demand for diagnostics', 'Bihar'],
+            ['chhattisgarh', 90, 25, '600', 'Developing infrastructure', 'Chhattisgarh'],
+            ['goa', 60, 10, '300', 'Good resource availability', 'Goa'],
+            ['gujarat', 180, 85, '4,000', 'Advanced facilities available', 'Gujarat'],
+            ['haryana', 130, 50, '1,800', 'Close proximity to NCR hubs', 'Haryana'],
+            ['himachal pradesh', 70, 15, '400', 'Better mobile clinics needed', 'Himachal Pradesh'],
+            ['jharkhand', 110, 35, '900', 'Steady growth in screening', 'Jharkhand'],
+            ['karnataka', 200, 100, '5,500', 'Innovation Hub for testing', 'Karnataka'],
+            ['kerala', 190, 95, '5,000', 'High awareness and literacy', 'Kerala'],
+            ['madhya pradesh', 140, 55, '2,100', 'Moderate demand across region', 'Madhya Pradesh'],
+            ['maharashtra', 250, 150, '10,000', 'Leading diagnostic centers present', 'Maharashtra'],
+            ['manipur', 50, 8, '150', 'Specialized care pathways required', 'Manipur'],
+            ['meghalaya', 45, 6, '120', 'Logistics challenge in hilly areas', 'Meghalaya'],
+            ['mizoram', 30, 4, '80', 'Awareness programs in nascent stage', 'Mizoram'],
+            ['nagaland', 35, 5, '90', 'Early phase screening programs', 'Nagaland'],
+            ['odisha', 125, 45, '1,300', 'Rising case detection rates', 'Odisha'],
+            ['punjab', 160, 70, '3,000', 'Strong medical infrastructure', 'Punjab'],
+            ['rajasthan', 170, 80, '3,500', 'Broad demographic coverage', 'Rajasthan'],
+            ['sikkim', 20, 2, '50', 'Remote access needs improvement', 'Sikkim'],
+            ['tamil nadu', 220, 120, '7,000', 'Top tier care centers operating', 'Tamil Nadu'],
+            ['telangana', 185, 90, '4,500', 'Rapidly expanding network', 'Telangana'],
+            ['tripura', 40, 6, '110', 'Limited scope of current testing', 'Tripura'],
+            ['uttar pradesh', 210, 110, '8,000', 'Largest patient base detected', 'Uttar Pradesh'],
+            ['uttarakhand', 100, 30, '700', 'Moderate access in difficult terrain', 'Uttarakhand'],
+            ['west bengal', 195, 100, '6,000', 'Major eastern medical hub', 'West Bengal'],
+            ['andaman and nicobar', 10, 1, '20', 'Requires distant coordination', 'Andaman and Nicobar'],
+            ['chandigarh', 80, 20, '1,000', 'High density access', 'Chandigarh'],
+            ['dadara and nagar havelli', 25, 3, '60', 'Developing facilities', 'Dadra and Nagar Haveli'],
+            ['daman and diu', 25, 2, '40', 'Developing facilities', 'Daman and Diu'],
+            ['nct of delhi', 240, 140, '9,000', 'National healthcare capital', 'Delhi'],
+            ['jammu and kashmir', 85, 25, '800', 'Improving clinical access', 'Jammu and Kashmir'],
+            ['lakshadweep', 5, 1, '10', 'Logistics constraints', 'Lakshadweep'],
+            ['puducherry', 65, 15, '500', 'Specialized centers active', 'Puducherry']
+        ];
+
+        Highcharts.mapChart('regions_div', {
+            chart: {
+                map: 'countries/in/custom/in-all-disputed',
+                backgroundColor: 'transparent'
+            },
+            title: { text: null },
+            legend: { enabled: false },
+            mapNavigation: {
+                enabled: true,
+                enableMouseWheelZoom: true,
+                mouseWheelSensitivity: 1.1,
+                buttonOptions: { verticalAlign: 'bottom', align: 'right' }
+            },
+            tooltip: {
+                useHTML: true,
+                backgroundColor: 'transparent',
+                borderWidth: 0,
+                shadow: false,
+                formatter: function () {
+                    const point = this.point;
+                    if (!point.display_name) return point.name;
+
+                    const stateKey = point.display_name.toLowerCase();
+                    const stateNutrData = nutritionData[stateKey] || { iron: [], b12: [] };
+
+                    // Iron Rows
+                    let ironRows = '';
+                    stateNutrData.iron.forEach(item => {
+                        if (item.food) {
+                            ironRows += `<div style="font-size: 11px; color: #555;">&bull; ${item.food} <span style="color:#888;">(${item.content})</span></div>`;
+                        }
+                    });
+
+                    // B12 Rows
+                    let b12Rows = '';
+                    stateNutrData.b12.forEach(item => {
+                        if (item.food) {
+                            b12Rows += `<div style="font-size: 11px; color: #555;">&bull; ${item.food} <span style="color:#888;">(${item.content})</span></div>`;
+                        }
+                    });
+
+
+                    return `
+                        <div style="padding: 12px; font-family: 'DM Sans', sans-serif; min-width: 250px; max-width: 320px; background-color: #fff; color: #333; border-radius: 8px;">
+                            <h6 style="margin-top: 0; color: #704a74; font-weight: bold; border-bottom: 2px solid #DBBCDF; padding-bottom: 6px; margin-bottom: 8px;">${point.display_name}</h6>
+                            <div style="font-size: 13px; line-height: 1.5; white-space: normal;">
+
+                                ${ironRows.length > 0 ? `
+                                <div style="margin-top: 6px; margin-bottom: 4px;">
+                                    <strong style="color: #d15656; font-size: 12px;">Rich in Iron:</strong>
+                                    <div style="margin-left: 5px; margin-top: 2px;">${ironRows}</div>
+                                </div>
+                                ` : ''}
+
+                                ${b12Rows.length > 0 ? `
+                                <div style="margin-top: 6px;">
+                                    <strong style="color: #4a90e2; font-size: 12px;">Rich in Vitamin B12:</strong>
+                                    <div style="margin-left: 5px; margin-top: 2px;">${b12Rows}</div>
+                                </div>
+                                ` : ''}
+
+                                ${(ironRows.length === 0 && b12Rows.length === 0) ? `
+                                <div style="font-size: 11px; color:#999; text-align:center; font-style:italic;">No nutrition data added yet</div>
+                                ` : ''}
+                            </div>
+                        </div>`;
+                }
+            },
+            series: [{
+                data: statesData,
+                keys: ['hc-key', 'value', 'clinics', 'patients', 'insight', 'display_name'],
+                name: 'Nutrition Data',
+                color: '#ebd9ec',
+                borderColor: '#ffffff',
+                borderWidth: 1,
+                states: {
+                    hover: {
+                        color: '#DBBCDF'
+                    }
+                },
+                dataLabels: {
+                    enabled: false
+                }
+            }],
+            credits: { enabled: false }
+        });
+
+        // Prevent body scroll when mouse is over map container to allow clean zooming
+        const mapContainer = document.getElementById('regions_div');
+        mapContainer.addEventListener('wheel', function (e) {
+            e.preventDefault();
+        }, { passive: false });
+
+        });
+    </script>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #DBBCDF;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">Hemegene <sup>&#946;</sup></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/nutrition-map">Nutrition Map</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Map Section -->
+    <div class="container" style="max-width: 900px;">
+        <div class="map-container">
+            <h2 class="page-title">Interactive Nutrition Map</h2>
+            <p class="page-subtitle">Discover state-specific localized nutritional data</p>
+            <div id="regions_div"></div>
+
+            <div class="map-benefits mt-4">
+                <h5 style="color: #5a355e; font-weight: 700;  margin-bottom: 8px;">How this map benefits you?</h5>
+                <p style="color: #666; font-size: 0.95rem; line-height: 1.6; margin-bottom: 0;">
+                    Visualizing geographic nutrition profiles allows medical experts and researchers to quickly
+                    correlate regional dietary patterns with conditions such as Acute Myeloid Leukemia (AML) and anemia.
+                    By identifying localized deficiencies or an abundance of <strong>Iron</strong> and <strong>Vitamin
+                        B12</strong>, healthcare providers can confidently prescribe proactive interventions, suggest
+                    geographically tailored dietary plans, and improve the precision of patient screening and therapy.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <!-- Standardized Footer -->
+    <footer class="bg-light mt-auto">
+        <div class="container footer-container py-4">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-md-start text-center">
+                    <h5 style="color: #704a74; font-weight: 700;" id="contact">Contact Us</h5>
+                    <p style="color: gray; margin-bottom: 5px;">For inquiries, please contact: <a
+                            href="mailto:support@jivana.org.in"
+                            style="color: gray; text-decoration: none;">support@jivana.org.in</a></p>
+                    <p style="color: gray; margin-bottom: 0;">&#169; Hemegene</p>
+                </div>
+                <div class="col-md-6 text-md-end text-center mt-4 mt-md-0">
+                    <p style="color: gray; margin-bottom: 10px; font-weight: 500;">Powered by</p>
+                    <a href="https://www.jivana.org.in" target="_blank">
+                        <img src="{{ url_for('static', filename='JIVANA-blacklogo.png') }}" alt="Jivana Logo"
+                            class="footer-logo" style="height: 80px;">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JavaScript and Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+</body>
+
+</html>

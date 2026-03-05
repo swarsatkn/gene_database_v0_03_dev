@@ -1,0 +1,81 @@
+Gene,Function,Disease,Types of alterations,Targeted therapy,MRD Marker status,CHIP status,ELN 2022 RISK,MRD technique,Sensitivity,Monitoring frequency,Sample,ELN comment,CHIP
+ABL1,non-receptor tyrosine kinase,Acute Myeloid Leukemia,"Fusions, Kinase domain mutations","Tyrosine kinase inhibitors: Imatinib, Dasatinib, nilotinib, Ponatinib, Bosutinib, Asciminib",Yes,No,Adverse,RQ-PCR / ddPCR (fusion-specific),10⁻⁵–10⁻⁶,"End induction, post-consolidation, q3 months × 2 yrs",BM (PB acceptable if fusion-driven),Valid only in fusion-associated disease,No
+ABL2,non-receptor tyrosine kinase,Acute Lymphoblastic Leukemia,Fusions,"Tyrosine kinase inhibitors: Imatinib, Dasatinib, nilotinib, Ponatinib, Bosutinib",Yes,No,,RQ-PCR / ddPCR (fusion-specific),10⁻⁵,Post-therapy,BM,Valid in ALL-related fusions,No
+ANKRD26,ankyrin repeat domain protein that is involved in regulation of megakaryopoiesis,Acute Myeloid Leukemia,Mutations and Copy number gain,No,No,No,Intermediate,Not recommended,,,,Germline predisposition / non-MRD gene,No
+ASXL1,tumor suppressor and epigenetic regulator,Acute Myeloid Leukemia,Mutations,No,No,Yes,Adverse,ecNGS (clonal tracking),10⁻³–10⁻⁴,,BM,CHIP / pre-leukemic clone,Yes
+ASXL2,tumor suppressor and epigenetic regulator,Acute Myeloid Leukemia,Mutations,No,No,Yes,Adverse,Not recommended for MRD,10⁻³–10⁻⁴,,BM,CHIP / pre-leukemic clone,Yes
+BCR/ABL1,chimeric fusion,Acute Myeloid Leukemia,Fusion,Tyrosine kinase inhibitors effect unknown,Yes,No,Adverse,,,,,,No
+BCOR,transcriptional repressor,Acute Myeloid Leukemia,Mutations,No,Yes,Yes,Adverse,ecNGS (supportive only),10⁻⁴,,BM,CHIP-associated; not standalone MRD,Yes
+BCL2,anti-apoptotic protein,NHL,Fusion,No,Yes,No,,,,,,,No
+CALR,"calreticulin, is a calcium-binding protein: molecular chaperone ",Myeloproliferative Neoplasm,Mutations,No,Yes,No,,ddPCR / NGS,10⁻⁴–10⁻⁵,,PB,MPN molecular response marker,No
+CBL,tumor suppressor and ubiquitin ligase,Acute Myeloid Leukemia,Mutations,No,Yes,Yes,Intermediate,ecNGS only,10⁻⁴,,BM,Secondary / CHIP-like behavior,Yes
+CCND1,cell cycle regulator,Mantle Cell Lymphoma,Fusion,No,Yes,No,,,,,,,No
+CSF3R,transmembrane receptor for cytokine colony-stimulating factor 3,Acute Myeloid Leukemia,Mutations,Yes: Proximal membrane: Ruxolitinib; Distal membrane: Dasatinib,Yes,Yes,Intermediate,ecNGS / ddPCR,10⁻⁴–10⁻⁵,,BM,Context-dependent MRD,Yes
+CBFB/MYH11,chimeric fusion: core binding factor AML,Acute Myeloid Leukemia,Fusion,Yes: Gemtuzumab Ozogamicin,Yes,No,Favorable,,,,,,No
+CEBPA,tumor suppressor and transcription factor,Acute Myeloid Leukemia,Mutations,No,Yes,No,Favorable,ecNGS,~10⁻⁴,,BM,Supportive MRD only,No
+CREBBP,tumor suppressor and transcriptional co-activator,Acute Myeloid Leukemia,Fusion,No,Yes,No,Adverse,Not recommended,,,,Secondary event,No
+DDX41,RNA helicase involved in innate immunity,Acute Myeloid Leukemia,Mutations,No,Yes*,No,Intermediate,Not MRD,,,,Germline predisposition gene,No
+DNMT3A,tumor suppressor and DNA methyltransferase,Acute Myeloid Leukemia,Mutations,No,No,Yes,,ecNGS only,,,,CHIP clone persistence common,Yes
+ETV6,transcription factor,Acute Myeloid Leukemia,Mutation,No,Yes,No,Intermediate,,,,,,No
+ETV6,transcription factor,Acute Myeloid Leukemia,Fusion,Yes,Yes,No,Intermediate,,,,,,No
+EZH2,Polycomb repressive complex 2 ,Acute Myeloid Leukemia,Mutations,Yes: Tazmetostat,Yes,No,Adverse,ecNGS (supportive),10⁻⁴,,,,No
+FGFR1, receptor tyrosine kinase,Acute Myeloid Leukemia,Fusion,Yes: Ponatinib,Yes,No,Intermediate,,,,,,No
+FGFR2, receptor tyrosine kinase,Acute Myeloid Leukemia,Fusion,Yes: Ponatinib,Yes,No,Intermediate,,,,,,No
+FUS,RNA-binding protein,Acute Myeloid Leukemia,Fusion,No,Yes,No,Intermediate,,,,,,No
+FLT3-ITD,receptor tyrosine kinase,Acute Myeloid Leukemia,Mutations,"Yes: Midostaurin, giltertinib, sorafenib",Yes,Yes,Intermediate,,,,,,No
+FLT3-TKD,receptor tyrosine kinase,Acute Myeloid Leukemia,Mutations,"Yes: Midostaurin, giltertinib, sorafenib",Yes,Yes,Intermediate,,,,,,No
+GATA2,transcription factor involved in red blood cell and platelet development,Acute Myeloid Leukemia,Mutations,No,Yes*,No,Intermediate,Not recommended,,,,Germline predisposition,No
+HMGA2,chromatin remodeling protein,Acute Myeloid Leukemia,Fusion,No,Yes,No,Intermediate,,,,,,No
+HRAS,membrane-associated GTPase,Acute Myeloid Leukemia,Mutations,No,Yes,No,Intermediate,,,,,,No
+IDH1,cell metabolism enzyme,Acute Myeloid Leukemia,Mutations,Yes: Ivosidenib,Yes,Yes,Intermediate,,,,,,No
+IDH2,cell metabolism enzyme,Acute Myeloid Leukemia,Mutations,Yes: Enasidenib,Yes,Yes,Intermediate,,,,,,No
+IKZF1,transcription factor involved in lymphocyte development,Acute Lymphoblastic Leukemia,Deletion,No,No,No,,,,,,,No
+JAK2,non-receptor tyrosine kinase,Acute Myeloid Leukemia,Mutations,Yes: Ruxolitinib,Yes,Yes,Intermediate,,,,,,No
+JAK2,non-receptor tyrosine kinase,Acute Myeloid Leukemia,Fusion,Yes: Ruxolitinib,Yes,No,Intermediate,,,,,,No
+KAT6A,histone acetyltransferase,Acute Myeloid Leukemia,Fusion,No,Yes,No,Adverse,,,,,,No
+KAT6B,histone acetyltransferase,Acute Myeloid Leukemia,Fusion,No,Yes,No,Adverse,,,,,,No
+KIT,receptor tyrosine kinase,Acute Myeloid Leukemia,Mutations,"Yes: Sorafenib, Avapritinib, Imatinib, Nilotinib, ",Yes,No,Intermediate,ecNGS,10⁻⁴,,,Supportive only,No
+KMT2A -R,histone methyltransferase,Acute Myeloid Leukemia,Fusion,No,Yes,No,Adverse,,,,,,No
+KMT2A-PTD,histone methyltransferase,Acute Myeloid Leukemia,Partial Tandem Duplication,No,Yes,No,Adverse,,,,,,No
+KRAS,RAS family of small GTPases,Acute Myeloid Leukemia,Mutations,No,Yes,No,Intermediate,,,,,,No
+MECOM,transcription factor expressed in hematopoietic stem cells,Acute Myeloid Leukemia,Fusion,No,Yes,No,Adverse,RQ-PCR,10⁻⁵,,BM,,No
+MLLT10,histone methyltransferase cofactor,Acute Myeloid Leukemia,Fusion,No,Yes,No,Adverse,,,,,,No
+MPL,transmembrane protein receptor,Myeloproliferative Neoplasm,Mutations,No,Yes,No,,,,,,,No
+RBM15/MTRFA,chimeric fusion,Acute Myeloid Leukemia,Fusion,No,Yes,No,Adverse,,,,,,No
+MYBL1,transcription factor,Blastic Plasmacytoid Dendritic Cell Neoplasm,Fusion,No,Yes,No,Intermediate,,,,,,No
+MYD88,signaling adaptor protein,Lymphoma,Mutations,No,Yes,No,,ddPCR (lymphoma),10⁻⁵,,,,No
+NF1, negative regulator of RAS,Acute Myeloid Leukemia,Mutations,No,Yes,No,Intermediate,ecNGS only,10⁻⁴,,,,No
+NPM1,nucleolar phosphoprotein,Acute Myeloid Leukemia,Mutations,No,Yes,No,Favorable,RQ-PCR / ddPCR,10⁻⁵–10⁻⁶,,BM > PB,Mandatory MRD marker,No
+NRAS,RAS family of small GTPases,Acute Myeloid Leukemia,Mutations,No,Yes,No,Intermediate,,,,,,No
+NTRK2, receptor tyrosine kinase,Acute Myeloid Leukemia,Fusion,"Yes: Entrectinib, Larotrectinib",Yes,No,Intermediate,,,,,,No
+NTRK3, receptor tyrosine kinase,Acute Myeloid Leukemia,Fusion,"Yes: Entrectinib, Larotrectinib",Yes,No,Intermediate,,,,,,No
+NUP214,nucleoporin protein,Acute Myeloid Leukemia,Fusion,No,Yes,No,Adverse,,,,,,No
+NUP98,nuclear pore and nuclear-cytoplasmic trafficking,Acute Myeloid Leukemia,Fusion,No,Yes,No,Intermediate,,,,,,No
+PAX5,transcription factor ,Acute Lymphoblastic Leukemia,Fusion,No,Yes,No,,,,,,,No
+PDGFRA,receptor tyrosine kinase,Acute Myeloid Leukemia,Fusion,"Yes: Sorafenib, Avapritinib, Imatinib, Nilotinib, ",Yes,No,Intermediate,,,,,,No
+PDGFRB,receptor tyrosine kinase,Acute Myeloid Leukemia,Fusion,"Yes: Sorafenib, Avapritinib, Imatinib, Nilotinib, ",Yes,No,Intermediate,,,,,,No
+PHF6,chromatin binding protein,Acute Myeloid Leukemia,Mutations,No,No,Yes,Intermediate,Not recommended,,,,,Yes
+PML/RARA,chimeric fusion,Acute Myeloid Leukemia,Fusion,"Yes: ATRA, ATO",Yes,No,Favorable,,,,,,No
+PPM1D,protein phosphatase,Acute Myeloid Leukemia,Mutations,No,No,Yes,Intermediate,Not MRD,,,,Therapy-related CHIP,Yes
+PRPF8,core component of spliceosome complexes,Acute Myeloid Leukemia,Mutations,No,No,Yes,Intermediate,,,,,,No
+PTPN11,protein tyrosine phosphatase,Acute Myeloid Leukemia,Mutations,No,Yes,Yes,Intermediate,,,,,,No
+RAD21,subunit of the cohesin complex ,Acute Myeloid Leukemia,Mutations,No,Yes,Yes,Intermediate,,,,,,No
+RARA,transcription factor,Acute Myeloid Leukemia,Fusion,"Yes: ATRA, ATO",Yes,No,Favorable,,,,,,No
+RB1,regulator of the cell cycle,Acute Myeloid Leukemia,Mutations,No,No,Yes,Intermediate,,,,,,No
+RUNX1,transcription factor,Acute Myeloid Leukemia,Mutations,No,Yes,Yes,Adverse,ecNGS (supportive),10⁻⁴,,,Adverse biology,Yes
+RUNX1/RUNX1T1,chimeric fusion,Acute Myeloid Leukemia,Fusion,Yes: Gemtuzumab Ozogamicin,Yes,No,Favorable,,,,,,No
+SETBP1,DNA binding protein that functions as an epigenetic remodeler,Acute Myeloid Leukemia,Mutations,No,No,Yes,Adverse,Not MRD,,,,,Yes
+SF3B1,component of the spliceosome complex,Acute Myeloid Leukemia,Mutations,Yes: Luspatercept,Yes,Yes,Adverse,,,,,,No
+SH2B3,plasma membrane-associated adaptor protein,Acute Myeloid Leukemia,Mutations,No,No,Yes,Intermediate,Not recommended,,,,,Yes
+SMC1A,component of the cohesin complex,Acute Myeloid Leukemia,Mutations,No,No,Yes,Intermediate,,,,,,No
+SMC3,component of the cohesin complex,Acute Myeloid Leukemia,Mutations,No,No,Yes,Intermediate,,,,,,No
+SRSF2,RNA splicing factor,Acute Myeloid Leukemia,Mutations,No,Yes,Yes,Adverse,,,,,,No
+STAG2,component of the cohesin complex,Acute Myeloid Leukemia,Mutations,No,Yes,Yes,Adverse,,,,,,No
+TCF3,transcription factor,Acute Lymphoblastic Leukemia,Fusion,No,No,Yes,,,,,,,No
+TFE3,transcription factor,Acute Lymphoblastic Leukemia,Fusion,No,No,Yes,,,,,,,No
+TET2,tumor suppressor and DNA demethylase,Acute Myeloid Leukemia,Mutations,No,No,Yes,Adverse,Not MRD,,,,CHIP,Yes
+TP53,tumor suppressor in the DNA damage pathway,Acute Myeloid Leukemia,Mutations,No,Yes,Yes,Adverse,ecNGS (UMI-based),10⁻⁴–10⁻⁵,,BM,Clearance predicts outcome,Yes (but malignant)
+U2AF1,splicing factor,Acute Myeloid Leukemia,Mutations,No,Yes,Yes,Adverse,,,,,,No
+WT1,transcription factor,Acute Myeloid Leukemia,Mutations,No,Yes,Yes,Adverse,WT1 overexpression qPCR,~10⁻⁴,,BM / PB,Supportive only,No
+ZRSR2,splicing factor U2 small nuclear ribonucleoprotein,Acute Myeloid Leukemia,Mutations,No,No,Yes,Adverse,,,,,,No
+EP300/ZNF384,chimeric fusion,Acute Lymphoblastic Leukemia,Fusion,No,No,Yes,,,,,,,No

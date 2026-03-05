@@ -1,23 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='Hemegene Logo.png') }}">
     <title>Hemegene &#946;</title>
 
-    <!-- Google Font: Nunito -->
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-    
+    <!-- Google Font: DM Sans -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap"
+        rel="stylesheet">
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    
+
     <!-- Custom CSS for a fresh modern design -->
     <style>
-         body {
-            font-family: 'Nunito', sans-serif;
+        body {
+            font-family: 'DM Sans', sans-serif;
             margin: 0;
             padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         .container {
@@ -59,7 +65,8 @@
         .team-member img {
             width: 100%;
             height: auto;
-            aspect-ratio: 1 / 1; /* Ensures the images are perfectly square */
+            aspect-ratio: 1 / 1;
+            /* Ensures the images are perfectly square */
             object-fit: cover;
             border-bottom: 5px solid #704a74;
         }
@@ -96,15 +103,30 @@
             .team-section {
                 grid-template-columns: 1fr;
             }
+
+            .footer-container {
+                padding-top: 20px !important;
+                padding-bottom: 20px !important;
+            }
+
+            .footer-logo {
+                height: 65px !important;
+            }
+
+            .col-md-6.mt-4.mt-md-0 {
+                margin-top: 1.5rem !important;
+            }
         }
     </style>
 </head>
+
 <body>
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #DBBCDF;">
         <div class="container-fluid">
             <a class="navbar-brand" href="/">Hemegene <sup>&#946;</sup></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -113,7 +135,10 @@
                         <a class="nav-link" href="/">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/about">Our Team</a>
+                        <a class="nav-link" href="/about">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/nutrition-map">Nutrition Map</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#contact">Contact</a>
@@ -125,8 +150,25 @@
 
     <!-- Main Container -->
     <div class="container">
-        <h3 class="text-center" style="color: #704a74;">
-            <img href="/" src="{{ url_for('static', filename='Hemegene.gif') }}" alt="Hemegene Logo" style="height: 150px; width: 150px"><br><br>
+        <div class="section-wrapper">
+            <h3 style="color: #704a74; text-align: left;">About Hemegene</h3>
+            <p style="color: #555; font-size: 1.1rem; line-height: 1.8;">
+                <b>Hemegene</b> is a trusted knowledge base for gene mutations related to Acute Myeloid Leukemia (AML).
+                Developed through collaboration between medical experts and data scientists, <b>Hemegene</b> offers a
+                user-friendly platform for healthcare professionals to explore essential genetic information crucial for
+                AML diagnosis and treatment.
+            </p>
+            <p style="color: #555; font-size: 1.1rem; line-height: 1.8;">
+                Our mission is to provide accurate, easily accessible, up-to-date genetic data that supports informed
+                decision-making in precision medicine, ultimately improving outcomes for AML patients. Furthermore, our
+                newly integrated <b>Interactive Nutrition Map</b> empowers researchers to uncover vital regional dietary
+                patterns—such as Iron and Vitamin B12 densities—bridging the gap between localized nutritional awareness
+                and advanced therapeutic interventions.
+            </p>
+        </div>
+
+        <h3 class="text-center" style="color: #704a74; margin-top: 60px;">
+
             The Heme Nexus
         </h3>
 
@@ -137,12 +179,15 @@
                 <div class="team-member">
                     <img src="{{ url_for('static', filename='Dr Rahul Bhargava.png') }}" alt="Team Member 1">
                     <h2>Dr Rahul Bhargava</h2>
-                    <p><i>Principal Director & Chief</i> <br>-<br> Hematology, Hemato Oncology & Bone Marrow Transplant <br> - <br>Fortis, Gurgaon</p>
+                    <p><i>Principal Director & Chief</i> <br>-<br> Hematology, Hemato Oncology & Bone Marrow Transplant
+                        <br> - <br>Fortis, Gurgaon
+                    </p>
                 </div>
                 <div class="team-member">
                     <img src="{{ url_for('static', filename='Dr Dinesh Bhurani.png') }}" alt="Team Member 2">
                     <h2>Dr Dinesh Bhurani</h2>
-                    <p><i>Director</i> <br>-<br>Department of Hemato-Oncology & Bone Marrow Transplant <br>-<br>RGCI, Delhi</p>
+                    <p><i>Director</i> <br>-<br>Department of Hemato-Oncology & Bone Marrow Transplant <br>-<br>RGCI,
+                        Delhi</p>
                 </div>
             </div>
         </div>
@@ -159,27 +204,41 @@
                 <div class="team-member">
                     <img src="{{ url_for('static', filename='Mr Swarsat Kaushik Nath.png') }}" alt="Team Member 4">
                     <h2>Mr Swarsat K Nath</h2>
-                    <p><i>Data Scientist & Software Developer</i><br>-<br>IQAC<br>-<br>SGT University, Gurgaon</p>
+                    <p><i>AI Operations Lead</i><br>-<br>Jivana AI<br>-<br>Fortis, Gurgaon</p>
+                </div>
+                <div class="team-member">
+                    <img src="{{ url_for('static', filename='Mr Moin M.png') }}" alt="Team Member 5">
+                    <h2>Mr Moin</h2>
+                    <p><i>Sr. AI Developer</i><br>-<br>Jivana AI<br>-<br>Fortis, Gurgaon</p>
                 </div>
             </div>
         </div>
     </div>
 
     <p class="text-center" style="color: #704a74;">
-        <img href="/" src="{{ url_for('static', filename='Fortis Collab Logo.png') }}" alt="Fortis Logo" style="height: 75; width: 168px">
+        <img href="/" src="{{ url_for('static', filename='Fortis Collab Logo.png') }}" alt="Fortis Logo"
+            style="height: 75; width: 168px">
     </p>
 
-    <!-- Footer -->
-    <footer class="bg-light text-center text-lg-start mt-5">
-        <div class="container p-4">
-            <h5 style="color: gray;">About Us</h5>
-            <p id="about" style="color: gray;"><b>Hemegene</b> is a trusted knowledge base for gene mutations related to Acute Myeloid Leukemia (AML). Developed through collaboration between medical experts and data scientists,
-                 <b>Hemegene</b> offers a user-friendly platform for healthcare professionals to explore essential genetic information crucial for AML diagnosis and treatment.<br><br>Our mission is to provide 
-                 accurate, easily accessible, up-to-date genetic data that supports informed decision-making in precision medicine, ultimately improving outcomes for AML patients.</p>
-            <hr>
-            <h5 style="color: gray;" id="contact">Contact Us</h5>
-            <p style="color: gray;">For inquiries, please contact: newprojectai24@gmail.com</p>
-            <p style="color: gray;">&#169; Hemegene</p>
+    <!-- Standardized Footer -->
+    <footer class="bg-light mt-auto">
+        <div class="container footer-container py-4">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-md-start text-center">
+                    <h5 style="color: #704a74; font-weight: 700;" id="contact">Contact Us</h5>
+                    <p style="color: gray; margin-bottom: 5px;">For inquiries, please contact: <a
+                            href="mailto:support@jivana.org.in"
+                            style="color: gray; text-decoration: none;">support@jivana.org.in</a></p>
+                    <p style="color: gray; margin-bottom: 0;">&#169; Hemegene</p>
+                </div>
+                <div class="col-md-6 text-md-end text-center mt-4 mt-md-0">
+                    <p style="color: gray; margin-bottom: 10px; font-weight: 500;">Powered by</p>
+                    <a href="https://www.jivana.org.in" target="_blank">
+                        <img src="{{ url_for('static', filename='JIVANA-blacklogo.png') }}" alt="Jivana Logo"
+                            class="footer-logo" style="height: 80px;">
+                    </a>
+                </div>
+            </div>
         </div>
     </footer>
 
@@ -190,4 +249,5 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
 </body>
+
 </html>

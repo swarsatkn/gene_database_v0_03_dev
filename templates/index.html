@@ -1,36 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='Hemegene Logo.png') }}">
 
     <title>Hemegene &#946;</title>
-    
-    <!-- Google Font: Nunito -->
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-    
+
+    <!-- Google Font: DM Sans -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap"
+        rel="stylesheet">
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- Custom CSS to apply Nunito font -->
+
+    <!-- Custom CSS to apply DM Sans font -->
     <style>
         body {
-            font-family: 'Nunito', sans-serif;
+            font-family: 'DM Sans', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
+
         #suggestions {
             position: absolute;
             z-index: 1000;
             width: 100%;
         }
+
+        /* Responsive Footer Adjustments */
+        @media (max-width: 768px) {
+            .footer-container {
+                padding-top: 20px !important;
+                padding-bottom: 20px !important;
+            }
+
+            .footer-logo {
+                height: 65px !important;
+            }
+
+            .col-md-6.mt-4.mt-md-0 {
+                margin-top: 1.5rem !important;
+            }
+        }
     </style>
 </head>
+
 <body>
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #DBBCDF;">
         <div class="container-fluid">
             <a class="navbar-brand" href="/">Hemegene <sup>&#946;</sup></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -39,7 +64,10 @@
                         <a class="nav-link" href="/">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/about">Our Team</a>
+                        <a class="nav-link" href="/about">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/nutrition-map">Nutrition Map</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#contact">Contact</a>
@@ -50,34 +78,46 @@
     </nav>
 
     <!-- Main Search Section -->
-    <div class="container mt-5">
+    <div class="container" style="margin-top: 10vh; margin-bottom: 5vh;">
         <h3 class="text-center" style="color: #704a74;">
-            <img href="/" src="{{ url_for('static', filename='Hemegene.gif') }}" alt="Hemegene Logo" style="height: 150px; width: 150px"><br><br>
+            <img href="/" src="{{ url_for('static', filename='Hemegene.gif') }}" alt="Hemegene Logo"
+                style="height: 150px; width: 150px"><br><br>
             Search Gene Information
         </h3>
         <form method="POST" action="/" class="mt-4">
             <div class="mb-3 position-relative">
-                <input type="text" id="gene_search" name="gene_search" class="form-control" placeholder="Type gene name" autocomplete="off" required>
+                <input type="text" id="gene_search" name="gene_search" class="form-control" placeholder="Type gene name"
+                    autocomplete="off" required>
                 <div id="suggestions" class="list-group"></div>
             </div>
             <button type="submit" class="btn btn-secondary">Search</button>
         </form><br>
         <p class="text-center" style="color: #704a74;">
-            <img href="/" src="{{ url_for('static', filename='Fortis Collab Logo.png') }}" alt="Fortis Logo" style="height: 75; width: 168px">
+            <img href="/" src="{{ url_for('static', filename='Fortis Collab Logo.png') }}" alt="Fortis Logo"
+                style="height: 75; width: 168px">
         </p>
     </div>
 
     <!-- Footer -->
-    <footer class="bg-light text-center text-lg-start mt-5">
-        <div class="container p-4">
-            <h5 style="color: gray;">About Us</h5>
-            <p id="about" style="color: gray;"><b>Hemegene</b> is a trusted knowledge base for gene mutations related to Acute Myeloid Leukemia (AML). Developed through collaboration between medical experts and data scientists,
-                 <b>Hemegene</b> offers a user-friendly platform for healthcare professionals to explore essential genetic information crucial for AML diagnosis and treatment.<br><br>Our mission is to provide 
-                 accurate, easily accessible, up-to-date genetic data that supports informed decision-making in precision medicine, ultimately improving outcomes for AML patients.</p>
-            <hr>
-            <h5 style="color: gray;" id="contact">Contact Us</h5>
-            <p style="color: gray;">For inquiries, please contact: newprojectai24@gmail.com</p>
-            <p style="color: gray;">&#169; Hemegene</p>
+    <!-- Standardized Footer -->
+    <footer class="bg-light mt-auto">
+        <div class="container footer-container py-4">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-md-start text-center">
+                    <h5 style="color: #704a74; font-weight: 700;" id="contact">Contact Us</h5>
+                    <p style="color: gray; margin-bottom: 5px;">For inquiries, please contact: <a
+                            href="mailto:support@jivana.org.in"
+                            style="color: gray; text-decoration: none;">support@jivana.org.in</a></p>
+                    <p style="color: gray; margin-bottom: 0;">&#169; Hemegene</p>
+                </div>
+                <div class="col-md-6 text-md-end text-center mt-4 mt-md-0">
+                    <p style="color: gray; margin-bottom: 10px; font-weight: 500;">Powered by</p>
+                    <a href="https://www.jivana.org.in" target="_blank">
+                        <img src="{{ url_for('static', filename='JIVANA-blacklogo.png') }}" alt="Jivana Logo"
+                            class="footer-logo" style="height: 80px;">
+                    </a>
+                </div>
+            </div>
         </div>
     </footer>
 
@@ -91,34 +131,35 @@
     <!-- Custom JS for search suggestions -->
     <script>
         // Sample gene data (you can replace this with your actual list of genes)
-        const genes = ["ABL1", "ABL2", "ANKRD26", "ASXL1", "ASXL2", "BCL2", "BCOR", "BCR|ABL1", "BRAF", "CALR", "CBFB|MYH11", "CBL", "CCND1", "CEBPA", "CREBBP", "CSF3R", "DDX41", "DNMT3A", "EGFR", 
-        "EP300|ZNF384", "ETV6", "EZH2", "FGFR1", "FGFR2", "FLT3-ITD", "FLT3-TKD", "FUS", "GATA2", "HMGA2", "HRAS", "IDH1", "IDH2", "IKZF1", "JAK2", "KAT6A", "KAT6B", "KIT", "KMT2A -R", 
-        "KMT2A-PTD", "KRAS", "MECOM", "MLLT10", "MPL", "MYBL1", "MYD88", "NF1", "NPM1", "NRAS", "NTRK2", "NTRK3", "NUP214", "NUP98", "PAX5", "PDGFRA", "PDGFRB", "PHF6", "PML|RARA", "PPM1D", 
-        "PRPF8", "PTPN11", "RAD21", "RARA", "RB1", "RBM15|MTRFA", "RUNX1", "RUNX1|RUNX1T1", "SETBP1", "SF3B1", "SH2B3", "SMC1A", "SMC3", "SRSF2", "STAG2", "TCF3", "TET2", "TFE3", "TP53", 
-        "U2AF1", "WT1", "ZRSR2"]
+        const genes = ["ABL1", "ABL2", "ANKRD26", "ASXL1", "ASXL2", "BCL2", "BCOR", "BCR|ABL1", "BRAF", "CALR", "CBFB|MYH11", "CBL", "CCND1", "CEBPA", "CREBBP", "CSF3R", "DDX41", "DNMT3A", "EGFR",
+            "EP300|ZNF384", "ETV6", "EZH2", "FGFR1", "FGFR2", "FLT3-ITD", "FLT3-TKD", "FUS", "GATA2", "HMGA2", "HRAS", "IDH1", "IDH2", "IKZF1", "JAK2", "KAT6A", "KAT6B", "KIT", "KMT2A -R",
+            "KMT2A-PTD", "KRAS", "MECOM", "MLLT10", "MPL", "MYBL1", "MYD88", "NF1", "NPM1", "NRAS", "NTRK2", "NTRK3", "NUP214", "NUP98", "PAX5", "PDGFRA", "PDGFRB", "PHF6", "PML|RARA", "PPM1D",
+            "PRPF8", "PTPN11", "RAD21", "RARA", "RB1", "RBM15|MTRFA", "RUNX1", "RUNX1|RUNX1T1", "SETBP1", "SF3B1", "SH2B3", "SMC1A", "SMC3", "SRSF2", "STAG2", "TCF3", "TET2", "TFE3", "TP53",
+            "U2AF1", "WT1", "ZRSR2"]
 
-        ;
+            ;
 
-        $(document).ready(function(){
+        $(document).ready(function () {
             // Filter and display suggestions
-            $('#gene_search').on('input', function(){
+            $('#gene_search').on('input', function () {
                 var query = $(this).val().toLowerCase();
                 $('#suggestions').empty();
-                
+
                 if (query.length > 1) {
                     const filteredGenes = genes.filter(gene => gene.toLowerCase().includes(query));
-                    filteredGenes.forEach(function(gene){
+                    filteredGenes.forEach(function (gene) {
                         $('#suggestions').append('<a href="#" class="list-group-item list-group-item-action">' + gene + '</a>');
                     });
                 }
             });
 
             // Set input value to clicked suggestion
-            $(document).on('click', '.list-group-item', function(){
+            $(document).on('click', '.list-group-item', function () {
                 $('#gene_search').val($(this).text());
                 $('#suggestions').empty();
             });
         });
     </script>
 </body>
+
 </html>
