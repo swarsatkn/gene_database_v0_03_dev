@@ -121,6 +121,11 @@
     <script
         src="https://cdn.jsdelivr.net/npm/@highcharts/map-collection/countries/in/custom/in-all-disputed.js"></script>
     <script type="text/javascript">
+        // Fix Highcharts AST filtering to allow the close button 'onclick' event
+        if (typeof Highcharts !== 'undefined' && Highcharts.AST) {
+            Highcharts.AST.allowedAttributes.push('onclick');
+        }
+
         document.addEventListener('DOMContentLoaded', function () {
             // Load nutrition data created by app.py
             const nutritionData = {{ state_nutrition_data | tojson | safe
@@ -170,6 +175,7 @@
                 map: 'countries/in/custom/in-all-disputed',
                 backgroundColor: 'transparent'
             },
+            accessibility: { enabled: false },
             title: { text: null },
             legend: { enabled: false },
             mapNavigation: {
@@ -185,6 +191,9 @@
                 shadow: false,
                 hideDelay: 200,
                 padding: 0,
+                style: {
+                    pointerEvents: 'auto'
+                },
                 positioner: function (labelWidth, labelHeight, point) {
                     // On mobile, force-center the "modal" tooltip
                     if (window.innerWidth < 600) {
@@ -249,7 +258,7 @@
 
                     return `
                         <div style="padding: 12px; font-family: 'DM Sans', sans-serif; min-width: 200px; width: max-content; max-width: min(360px, 90vw); background-color: #fff; color: #333; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); overflow-x: hidden; pointer-events: auto; position: relative;">
-                            <div onclick="window.closeTooltip()" style="position: absolute; right: 10px; top: 8px; cursor: pointer; color: #999; font-size: 18px; line-height: 1; z-index: 10; padding: 4px;">&times;</div>
+                            <div onclick="event.stopPropagation(); window.closeTooltip()" style="position: absolute; right: 10px; top: 8px; cursor: pointer; color: #999; font-size: 20px; line-height: 1; z-index: 100; padding: 4px;">&times;</div>
                             <h6 style="margin-top: 0; color: #704a74; font-weight: bold; border-bottom: 2px solid #DBBCDF; padding-bottom: 8px; margin-bottom: 12px; font-size: 14px; white-space: nowrap; padding-right: 25px;">${point.display_name}</h6>
                             
                             <div style="font-size: 13px; line-height: 1.5; white-space: normal;">
@@ -350,7 +359,7 @@
             }
         });
 
-        });
+        }); // End of DOMContentLoaded
     </script>
 </head>
 
