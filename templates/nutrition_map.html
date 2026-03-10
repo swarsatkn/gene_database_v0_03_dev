@@ -165,7 +165,7 @@
             ['puducherry', 65, 15, '500', 'Specialized centers active', 'Puducherry']
         ];
 
-        Highcharts.mapChart('regions_div', {
+        const chart = Highcharts.mapChart('regions_div', {
             chart: {
                 map: 'countries/in/custom/in-all-disputed',
                 backgroundColor: 'transparent'
@@ -186,13 +186,17 @@
                 hideDelay: 200,
                 padding: 0,
                 positioner: function (labelWidth, labelHeight, point) {
-                    // On mobile, keep it within screen bounds
+                    // On mobile, force-center the "modal" tooltip
                     if (window.innerWidth < 600) {
-                        const x = Math.max(10, Math.min(point.plotX + this.chart.plotLeft - labelWidth / 2, window.innerWidth - labelWidth - 10));
-                        const y = point.plotY + this.chart.plotTop - labelHeight - 20;
-                        return { x: x, y: y < 10 ? 10 : y };
+                        return {
+                            x: (this.chart.chartWidth - labelWidth) / 2,
+                            y: (this.chart.chartHeight - labelHeight) / 2
+                        };
                     }
-                    return null; // Default behavior for desktop
+                    // For desktop, stay near the point but prevent overflow
+                    const x = Math.max(10, Math.min(point.plotX + this.chart.plotLeft - labelWidth / 2, window.innerWidth - labelWidth - 10));
+                    const y = point.plotY + this.chart.plotTop - labelHeight - 20;
+                    return { x: x, y: y < 10 ? 10 : y };
                 },
                 animation: {
                     duration: 100
@@ -227,7 +231,7 @@
                     let b12VegHTML = '';
                     let b12NonVegHTML = '';
 
-                    const clean = (val) => val.toString().replace(/[^\x20-\x7E]/g, '.');
+                    const clean = (val) => val.toString().trim().replace(/[^\d.a-zA-Z]/g, (m) => m.charCodeAt(0) > 127 ? '.' : m);
 
                     stateNutrData.b12.forEach(item => {
                         if (item.food) {
@@ -243,10 +247,10 @@
                     });
 
 
-                    const ttWidth = window.innerWidth < 600 ? '290px' : '360px';
                     return `
-                        <div style="padding: 12px; font-family: 'DM Sans', sans-serif; width: ${ttWidth}; background-color: #fff; color: #333; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); overflow-x: hidden;">
-                            <h6 style="margin-top: 0; color: #704a74; font-weight: bold; border-bottom: 2px solid #DBBCDF; padding-bottom: 8px; margin-bottom: 12px; font-size: 14px;">${point.display_name}</h6>
+                        <div style="padding: 12px; font-family: 'DM Sans', sans-serif; min-width: 200px; width: max-content; max-width: min(360px, 90vw); background-color: #fff; color: #333; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); overflow-x: hidden; pointer-events: auto; position: relative;">
+                            <div onclick="window.closeTooltip()" style="position: absolute; right: 10px; top: 8px; cursor: pointer; color: #999; font-size: 18px; line-height: 1; z-index: 10; padding: 4px;">&times;</div>
+                            <h6 style="margin-top: 0; color: #704a74; font-weight: bold; border-bottom: 2px solid #DBBCDF; padding-bottom: 8px; margin-bottom: 12px; font-size: 14px; white-space: nowrap; padding-right: 25px;">${point.display_name}</h6>
                             
                             <div style="font-size: 13px; line-height: 1.5; white-space: normal;">
 
@@ -261,15 +265,15 @@
                                 <div style="margin-top: 10px;">
                                     <div style="color: #4a90e2; font-size: 11px; font-weight: bold; margin-bottom: 8px; letter-spacing: 0.5px; white-space: normal;">RICH IN VITAMIN B12 (µg/100g)</div>
                                     
-                                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                    <div style="display: flex; gap: 15px; flex-wrap: wrap;">
                                         ${b12VegHTML ? `
-                                        <div style="flex: 1; min-width: 120px;">
+                                        <div style="flex: 0 0 auto; min-width: 100px;">
                                             <div>${b12VegHTML}</div>
                                         </div>
                                         ` : ''}
                                         
                                         ${b12NonVegHTML ? `
-                                        <div style="flex: 1; min-width: 120px;">
+                                        <div style="flex: 0 0 auto; min-width: 100px;">
                                             <div>${b12NonVegHTML}</div>
                                         </div>
                                         ` : ''}
@@ -331,11 +335,20 @@
             credits: { enabled: false }
         });
 
+        // Global closer function for tooltip button
+        window.closeTooltip = function () {
+            if (chart) chart.tooltip.hide(0);
+        };
+
         // Prevent body scroll when mouse is over map container to allow clean zooming
-        const mapContainer = document.getElementById('regions_div');
-        mapContainer.addEventListener('wheel', function (e) {
-            e.preventDefault();
-        }, { passive: false });
+        // Close tooltip when clicking anywhere else on the screen
+        document.addEventListener('click', function (e) {
+            const mapDiv = document.getElementById('regions_div');
+            // If click is outside the map, hide the tooltip
+            if (chart && mapDiv && !mapDiv.contains(e.target)) {
+                chart.tooltip.hide(0);
+            }
+        });
 
         });
     </script>
