@@ -183,9 +183,19 @@
                 backgroundColor: 'transparent',
                 borderWidth: 0,
                 shadow: false,
-                hideDelay: 100,
+                hideDelay: 200,
+                padding: 0,
+                positioner: function (labelWidth, labelHeight, point) {
+                    // On mobile, keep it within screen bounds
+                    if (window.innerWidth < 600) {
+                        const x = Math.max(10, Math.min(point.plotX + this.chart.plotLeft - labelWidth / 2, window.innerWidth - labelWidth - 10));
+                        const y = point.plotY + this.chart.plotTop - labelHeight - 20;
+                        return { x: x, y: y < 10 ? 10 : y };
+                    }
+                    return null; // Default behavior for desktop
+                },
                 animation: {
-                    duration: 50
+                    duration: 100
                 },
                 formatter: function () {
                     const point = this.point;
@@ -217,11 +227,14 @@
                     let b12VegHTML = '';
                     let b12NonVegHTML = '';
 
+                    const clean = (val) => val.toString().replace(/[^\x20-\x7E]/g, '.');
+
                     stateNutrData.b12.forEach(item => {
                         if (item.food) {
+                            const valStr = clean(item.content);
                             const row = `<div style="font-size: 11px; color: #555; display: flex; align-items: flex-start; margin-bottom: 5px;">
                                 <div style="margin-top: 3px;">${getSym(item.pref)}</div>
-                                <span style="line-height:1.4;">${item.food} <small style="color:#888;">(${item.content})</small></span>
+                                <span style="line-height:1.4;">${item.food} <small style="color:#888;">(${valStr})</small></span>
                             </div>`;
 
                             if (item.pref === 'non-veg') b12NonVegHTML += row;
@@ -230,9 +243,10 @@
                     });
 
 
+                    const ttWidth = window.innerWidth < 600 ? '290px' : '360px';
                     return `
-                        <div style="padding: 12px; font-family: 'DM Sans', sans-serif; min-width: min(320px, 90vw); max-width: 450px; background-color: #fff; color: #333; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); overflow-x: hidden;">
-                            <h6 style="margin-top: 0; color: #704a74; font-weight: bold; border-bottom: 2px solid #DBBCDF; padding-bottom: 8px; margin-bottom: 12px; font-size: 15px;">${point.display_name}</h6>
+                        <div style="padding: 12px; font-family: 'DM Sans', sans-serif; width: ${ttWidth}; background-color: #fff; color: #333; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); overflow-x: hidden;">
+                            <h6 style="margin-top: 0; color: #704a74; font-weight: bold; border-bottom: 2px solid #DBBCDF; padding-bottom: 8px; margin-bottom: 12px; font-size: 14px;">${point.display_name}</h6>
                             
                             <div style="font-size: 13px; line-height: 1.5; white-space: normal;">
 
@@ -307,7 +321,7 @@
                             id: 'nutrition-series',
                             dataLabels: {
                                 style: {
-                                    fontSize: '7px'
+                                    fontSize: '6.5px'
                                 }
                             }
                         }]
