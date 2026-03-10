@@ -347,7 +347,13 @@
 
         // Global closer function for tooltip button
         window.closeTooltip = function () {
-            if (chart) chart.tooltip.hide(0);
+            if (chart) {
+                chart.tooltip.hide(0);
+                // Reset states of all points to remove highlights
+                chart.series.forEach(s => {
+                    s.points.forEach(p => p.setState(''));
+                });
+            }
         };
 
         // Prevent body scroll when mouse is over map container to allow clean zooming
@@ -368,9 +374,12 @@
         // Close tooltip when clicking anywhere else on the screen
         document.addEventListener('click', function (e) {
             const mapDiv = document.getElementById('regions_div');
-            // If click is outside the map, hide the tooltip
+            // If click is outside the map, hide the tooltip and reset highlighting
             if (chart && mapDiv && !mapDiv.contains(e.target)) {
                 chart.tooltip.hide(0);
+                chart.series.forEach(s => {
+                    s.points.forEach(p => p.setState(''));
+                });
             }
         });
 
