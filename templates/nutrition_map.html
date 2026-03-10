@@ -333,6 +333,7 @@
                     chartOptions: {
                         series: [{
                             id: 'nutrition-series',
+                            stickyTracking: false,
                             dataLabels: {
                                 style: {
                                     fontSize: '6.5px'
@@ -345,18 +346,19 @@
             credits: { enabled: false }
         });
 
-        // Global closer function for tooltip button
+        // Centralized closer function to hide tooltip and clear ALL highlights
         window.closeTooltip = function () {
             if (chart) {
                 chart.tooltip.hide(0);
-                // Broad reset for highlights
+                // Aggressively reset all states, hover effects, and pointer history
                 chart.series.forEach(s => {
                     s.points.forEach(p => {
-                        if (p.state === 'hover') p.setState('');
-                        if (p.onMouseOut) p.onMouseOut();
+                        p.setState('', true); // true forces immediate redraw
+                        if (p.select) p.select(false);
                     });
                 });
                 if (chart.pointer) chart.pointer.reset();
+                chart.hoverPoints = [];
             }
         };
 
@@ -368,7 +370,7 @@
                 if (e.target.classList.contains('close-nutrition-btn')) {
                     e.preventDefault();
                     e.stopPropagation();
-                    if (chart) chart.tooltip.hide(0);
+                    window.closeTooltip();
                 }
             };
             regionsDiv.addEventListener('click', handleClose);
@@ -378,16 +380,9 @@
         // Close tooltip when clicking anywhere else on the screen
         document.addEventListener('click', function (e) {
             const mapDiv = document.getElementById('regions_div');
-            // If click is outside the map, hide the tooltip and force-reset highlighting
+            // If click is outside the map, hide the tooltip and completely reset map state
             if (chart && mapDiv && !mapDiv.contains(e.target)) {
-                chart.tooltip.hide(0);
-                chart.series.forEach(s => {
-                    s.points.forEach(p => {
-                        if (p.state === 'hover') p.setState('');
-                        if (p.onMouseOut) p.onMouseOut();
-                    });
-                });
-                if (chart.pointer) chart.pointer.reset();
+                window.closeTooltip();
             }
         });
 
