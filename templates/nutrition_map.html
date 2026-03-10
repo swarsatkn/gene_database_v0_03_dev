@@ -231,7 +231,7 @@
 
 
                     return `
-                        <div style="padding: 12px; font-family: 'DM Sans', sans-serif; min-width: 320px; max-width: 450px; background-color: #fff; color: #333; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+                        <div style="padding: 12px; font-family: 'DM Sans', sans-serif; min-width: min(320px, 90vw); max-width: 450px; background-color: #fff; color: #333; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); overflow-x: hidden;">
                             <h6 style="margin-top: 0; color: #704a74; font-weight: bold; border-bottom: 2px solid #DBBCDF; padding-bottom: 8px; margin-bottom: 12px; font-size: 15px;">${point.display_name}</h6>
                             
                             <div style="font-size: 13px; line-height: 1.5; white-space: normal;">
@@ -245,17 +245,17 @@
 
                                 ${(b12VegHTML || b12NonVegHTML) ? `
                                 <div style="margin-top: 10px;">
-                                    <div style="color: #4a90e2; font-size: 12px; font-weight: bold; margin-bottom: 8px; letter-spacing: 0.5px;">RICH IN VITAMIN B12 (µg/100g)</div>
+                                    <div style="color: #4a90e2; font-size: 11px; font-weight: bold; margin-bottom: 8px; letter-spacing: 0.5px; white-space: normal;">RICH IN VITAMIN B12 (µg/100g)</div>
                                     
-                                    <div style="display: flex; gap: 15px;">
+                                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
                                         ${b12VegHTML ? `
-                                        <div style="flex: 1;">
+                                        <div style="flex: 1; min-width: 120px;">
                                             <div>${b12VegHTML}</div>
                                         </div>
                                         ` : ''}
                                         
                                         ${b12NonVegHTML ? `
-                                        <div style="flex: 1;">
+                                        <div style="flex: 1; min-width: 120px;">
                                             <div>${b12NonVegHTML}</div>
                                         </div>
                                         ` : ''}
@@ -271,6 +271,7 @@
                 }
             },
             series: [{
+                id: 'nutrition-series',
                 data: statesData,
                 keys: ['hc-key', 'value', 'clinics', 'patients', 'insight', 'display_name'],
                 name: 'Nutrition Data',
@@ -296,6 +297,23 @@
                     }
                 }
             }],
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 500
+                    },
+                    chartOptions: {
+                        series: [{
+                            id: 'nutrition-series',
+                            dataLabels: {
+                                style: {
+                                    fontSize: '7px'
+                                }
+                            }
+                        }]
+                    }
+                }]
+            },
             credits: { enabled: false }
         });
 
