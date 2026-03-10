@@ -26,36 +26,43 @@ def about():
 
 import pandas as pd
 
-# Load Health Map excel data logic
-IRON_DATA = os.path.join(os.path.dirname(__file__), 'iron-rich-foods_state-wise.xlsx')
+# Load Health Map data logic
+IRON_DATA = os.path.join(os.path.dirname(__file__), 'iron-rich-foods_state-wise.csv')
 B12_DATA = os.path.join(os.path.dirname(__file__), 'vitamin_b12_india_statewise.csv')
 
 def get_health_map_data():
     try:
-        df_iron = pd.read_excel(IRON_DATA)
-        # Using encoding='latin1' as CSV from Excel often has non-UTF-8 characters
+        # Using encoding='latin1' to handle special characters (like µg)
+        df_iron = pd.read_csv(IRON_DATA, encoding='latin1')
         df_b12 = pd.read_csv(B12_DATA, encoding='latin1')
         
         # Prepare a dictionary: { "state_name": {"iron": [...], "b12": [...]} }
         state_data = {}
+
+        def normalize_state(s):
+            s = str(s).strip().lower()
+            s = s.replace('&', 'and')
+            s = s.replace('  ', ' ')
+            # Handle specific variations to match nutrition_map.html display_name
+            mapping = {
+                'andaman and nicobar islands': 'andaman and nicobar',
+                'arunanchal pradesh': 'arunachal pradesh',
+                'dadra and nagar havelli': 'dadra and nagar haveli',
+                'dadara and nagar havelli': 'dadra and nagar haveli'
+            }
+            return mapping.get(s, s)
         
         # Parse Iron data
         for _, row in df_iron.iterrows():
-            state = str(row.get('State', '')).strip().lower()
+            state = normalize_state(row.get('State / UT', ''))
+            if not state or state == 'nan': continue
+
             if state not in state_data:
                 state_data[state] = {'iron': [], 'b12': []}
             
             food = str(row.get('Food Item', '')).strip()
-            content = str(row.get('Iron Content (mg/100g)', '')).strip()
-            
-            # Infer preference for Iron if column missing
+            content = str(row.get('Iron (mg/100g)', '')).strip()
             pref = str(row.get('Food Preference', '')).strip().lower()
-            if not pref:
-                non_veg_keywords = ['egg', 'chicken', 'fish', 'meat', 'pork', 'mutton', 'beef', 'duck']
-                if any(kw in food.lower() for kw in non_veg_keywords):
-                    pref = 'non-veg'
-                else:
-                    pref = 'veg'
 
             if food and food != 'nan':
                 state_data[state]['iron'].append({
@@ -65,16 +72,16 @@ def get_health_map_data():
                 })
                 
         # Parse B12 data
-        b12_col = next((c for c in df_b12.columns if 'Vitamin B12' in c), 'Vitamin B12 (µg/100g)')
-        
         for _, row in df_b12.iterrows():
-            state = str(row.get('State / UT', '')).strip().lower()
+            state = normalize_state(row.get('State / UT', ''))
             if not state or state == 'nan': continue
             
             if state not in state_data:
                 state_data[state] = {'iron': [], 'b12': []}
                 
             food = str(row.get('Food Item', '')).strip()
+            # Find the B12 column dynamically as it might have special characters
+            b12_col = next((c for c in df_b12.columns if 'Vitamin B12' in c), 'Vitamin B12 (µg/100g)')
             content = str(row.get(b12_col, '')).strip()
             pref = str(row.get('Food Preference', 'veg')).strip().lower()
             
@@ -87,7 +94,7 @@ def get_health_map_data():
 
         return state_data
     except Exception as e:
-        print("Error loading health map excel data:", e)
+        print("Error loading health map data:", e)
         return {}
 
 # Nutrition Map route

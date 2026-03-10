@@ -120,11 +120,13 @@
     <script src="https://cdn.jsdelivr.net/npm/highcharts@11/highmaps.js"></script>
     <script
         src="https://cdn.jsdelivr.net/npm/@highcharts/map-collection/countries/in/custom/in-all-disputed.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.11.0/proj4.js"></script>
     <script type="text/javascript">
         // Fix Highcharts AST filtering to allow the close button 'class' and 'onclick'
         if (typeof Highcharts !== 'undefined' && Highcharts.AST) {
             Highcharts.AST.allowedAttributes.push('onclick');
             Highcharts.AST.allowedAttributes.push('class');
+            Highcharts.AST.allowedAttributes.push('src');
         }
 
         document.addEventListener('DOMContentLoaded', function () {
@@ -226,22 +228,28 @@
                         </div>`;
                     };
 
-                    // Iron Rows
-                    let ironRows = '';
+                    // Iron Columns (Side by Side)
+                    let ironVegHTML = '';
+                    let ironNonVegHTML = '';
+
+                    const clean = (val) => val.toString().trim().replace(/[^\d.a-zA-Z]/g, (m) => m.charCodeAt(0) > 127 ? '.' : m);
+
                     stateNutrData.iron.forEach(item => {
                         if (item.food) {
-                            ironRows += `<div style="font-size: 11px; color: #555; display: flex; align-items: center; margin-bottom: 4px;">
-                                ${getSym(item.pref)}
-                                <span>${item.food} <span style="color:#888;">(${item.content})</span></span>
+                            const valStr = clean(item.content);
+                            const row = `<div style="font-size: 11px; color: #555; display: flex; align-items: flex-start; margin-bottom: 5px;">
+                                <div style="margin-top: 3px;">${getSym(item.pref)}</div>
+                                <span style="line-height:1.4;">${item.food} <small style="color:#888;">(${valStr})</small></span>
                             </div>`;
+
+                            if (item.pref === 'non-veg') ironNonVegHTML += row;
+                            else ironVegHTML += row;
                         }
                     });
 
                     // B12 Columns (Side by Side)
                     let b12VegHTML = '';
                     let b12NonVegHTML = '';
-
-                    const clean = (val) => val.toString().trim().replace(/[^\d.a-zA-Z]/g, (m) => m.charCodeAt(0) > 127 ? '.' : m);
 
                     stateNutrData.b12.forEach(item => {
                         if (item.food) {
@@ -264,10 +272,22 @@
                             
                             <div style="font-size: 13px; line-height: 1.5; white-space: normal;">
 
-                                ${ironRows.length > 0 ? `
+                                ${(ironVegHTML || ironNonVegHTML) ? `
                                 <div style="margin-bottom: 15px;">
-                                    <div style="color: #d15656; font-size: 12px; font-weight: bold; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px;">Rich in Iron:</div>
-                                    <div style="margin-left: 2px;">${ironRows}</div>
+                                    <div style="color: #d15656; font-size: 12px; font-weight: bold; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">Rich in Iron:</div>
+                                    <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                                        ${ironVegHTML ? `
+                                        <div style="flex: 0 0 auto; min-width: 100px;">
+                                            <div>${ironVegHTML}</div>
+                                        </div>
+                                        ` : ''}
+                                        
+                                        ${ironNonVegHTML ? `
+                                        <div style="flex: 0 0 auto; min-width: 100px;">
+                                            <div>${ironNonVegHTML}</div>
+                                        </div>
+                                        ` : ''}
+                                    </div>
                                 </div>
                                 ` : ''}
 
@@ -291,7 +311,7 @@
                                 </div>
                                 ` : ''}
 
-                                ${(!ironRows && !b12VegHTML && !b12NonVegHTML) ? `
+                                ${(!ironVegHTML && !ironNonVegHTML && !b12VegHTML && !b12NonVegHTML) ? `
                                 <div style="font-size: 11px; color:#999; text-align:center; font-style:italic; padding: 10px 0;">No nutrition data added yet</div>
                                 ` : ''}
                             </div>
@@ -319,17 +339,51 @@
                     format: '{point.display_name}',
                     style: {
                         fontFamily: "'DM Sans', sans-serif",
-                        fontSize: '9px',
-                        fontWeight: '900',
+                        fontSize: '8px',
+                        fontWeight: '500',
                         color: '#704a74',
                         textOutline: 'none'
                     }
                 }
+            }, {
+                id: 'logo-desktop',
+                type: 'mappoint',
+                name: 'Slogan Logo Desktop',
+                enableMouseTracking: false,
+                visible: true,
+                data: [{
+                    name: 'Slogan',
+                    lat: 33,
+                    lon: 86,
+                    marker: {
+                        symbol: 'url({{ url_for("static", filename="Slogan_logo.png") }})',
+                        width: 150,
+                        height: 150
+                    }
+                }],
+                dataLabels: { enabled: false }
+            }, {
+                id: 'logo-mobile',
+                type: 'mappoint',
+                name: 'Slogan Logo Mobile',
+                enableMouseTracking: false,
+                visible: false,
+                data: [{
+                    name: 'Slogan Mobile',
+                    lat: 33,
+                    lon: 87.0,
+                    marker: {
+                        symbol: 'url({{ url_for("static", filename="Slogan_logo.png") }})',
+                        width: 80,
+                        height: 80
+                    }
+                }],
+                dataLabels: { enabled: false }
             }],
             responsive: {
                 rules: [{
                     condition: {
-                        maxWidth: 500
+                        maxWidth: 600
                     },
                     chartOptions: {
                         series: [{
@@ -341,6 +395,12 @@
                                     fontSize: '6.5px'
                                 }
                             }
+                        }, {
+                            id: 'logo-desktop',
+                            visible: false
+                        }, {
+                            id: 'logo-mobile',
+                            visible: true
                         }]
                     }
                 }]
