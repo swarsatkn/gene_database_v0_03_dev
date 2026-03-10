@@ -121,9 +121,10 @@
     <script
         src="https://cdn.jsdelivr.net/npm/@highcharts/map-collection/countries/in/custom/in-all-disputed.js"></script>
     <script type="text/javascript">
-        // Fix Highcharts AST filtering to allow the close button 'onclick' event
+        // Fix Highcharts AST filtering to allow the close button 'class' and 'onclick'
         if (typeof Highcharts !== 'undefined' && Highcharts.AST) {
             Highcharts.AST.allowedAttributes.push('onclick');
+            Highcharts.AST.allowedAttributes.push('class');
         }
 
         document.addEventListener('DOMContentLoaded', function () {
@@ -258,8 +259,8 @@
 
                     return `
                         <div style="padding: 12px; font-family: 'DM Sans', sans-serif; min-width: 200px; width: max-content; max-width: min(360px, 90vw); background-color: #fff; color: #333; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); overflow-x: hidden; pointer-events: auto; position: relative;">
-                            <div onclick="event.stopPropagation(); window.closeTooltip()" style="position: absolute; right: 10px; top: 8px; cursor: pointer; color: #999; font-size: 20px; line-height: 1; z-index: 100; padding: 4px;">&times;</div>
-                            <h6 style="margin-top: 0; color: #704a74; font-weight: bold; border-bottom: 2px solid #DBBCDF; padding-bottom: 8px; margin-bottom: 12px; font-size: 14px; white-space: nowrap; padding-right: 25px;">${point.display_name}</h6>
+                            <div class="close-nutrition-btn" style="position: absolute; right: 8px; top: 6px; cursor: pointer; color: #999; font-size: 24px; line-height: 1; z-index: 1000; padding: 10px; pointer-events: auto; user-select: none; -webkit-tap-highlight-color: transparent;">&times;</div>
+                            <h6 style="margin-top: 0; color: #704a74; font-weight: bold; border-bottom: 2px solid #DBBCDF; padding-bottom: 8px; margin-bottom: 12px; font-size: 14px; white-space: nowrap; padding-right: 30px;">${point.display_name}</h6>
                             
                             <div style="font-size: 13px; line-height: 1.5; white-space: normal;">
 
@@ -350,6 +351,20 @@
         };
 
         // Prevent body scroll when mouse is over map container to allow clean zooming
+        // Reliable event delegation for the close button
+        const regionsDiv = document.getElementById('regions_div');
+        if (regionsDiv) {
+            const handleClose = function (e) {
+                if (e.target.classList.contains('close-nutrition-btn')) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (chart) chart.tooltip.hide(0);
+                }
+            };
+            regionsDiv.addEventListener('click', handleClose);
+            regionsDiv.addEventListener('touchstart', handleClose, { passive: false });
+        }
+
         // Close tooltip when clicking anywhere else on the screen
         document.addEventListener('click', function (e) {
             const mapDiv = document.getElementById('regions_div');
