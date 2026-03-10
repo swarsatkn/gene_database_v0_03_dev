@@ -1,0 +1,217 @@
+State / UT,Food Preference,Food Item,Vitamin B12 (µg/100g)
+Andhra Pradesh,Veg,Fortified cereals,1–2
+Andhra Pradesh,Veg,Paneer,1.1
+Andhra Pradesh,Veg,Curd,0.4
+Andhra Pradesh,Non-Veg,Fish,2–5
+Andhra Pradesh,Non-Veg,Chicken,0.3
+Andhra Pradesh,Non-Veg,Egg,1.1
+Arunachal Pradesh,Veg,Milk,0.5
+Arunachal Pradesh,Veg,Paneer,1.1
+Arunachal Pradesh,Veg,Fortified soy milk,1–2
+Arunachal Pradesh,Non-Veg,Pork,0.7
+Arunachal Pradesh,Non-Veg,Chicken,0.3
+Arunachal Pradesh,Non-Veg,Fish,2–5
+Assam,Veg,Curd,0.4
+Assam,Veg,Milk,0.5
+Assam,Veg,Fortified cereals,1–2
+Assam,Non-Veg,Fish,2–5
+Assam,Non-Veg,Duck egg,1.5
+Assam,Non-Veg,Chicken,0.3
+Bihar,Veg,Paneer,1.1
+Bihar,Veg,Milk,0.5
+Bihar,Veg,Curd,0.4
+Bihar,Non-Veg,Egg,1.1
+Bihar,Non-Veg,Chicken,0.3
+Bihar,Non-Veg,Fish,2–5
+Chhattisgarh,Veg,Milk,0.5
+Chhattisgarh,Veg,Curd,0.4
+Chhattisgarh,Veg,Fortified cereals,1–2
+Chhattisgarh,Non-Veg,Chicken,0.3
+Chhattisgarh,Non-Veg,Fish,2–5
+Chhattisgarh,Non-Veg,Egg,1.1
+Goa,Veg,Paneer,1.1
+Goa,Veg,Cheese,1.5
+Goa,Veg,Milk,0.5
+Goa,Non-Veg,Fish,2–5
+Goa,Non-Veg,Prawn,1
+Goa,Non-Veg,Egg,1.1
+Gujarat,Veg,Milk,0.5
+Gujarat,Veg,Paneer,1.1
+Gujarat,Veg,Curd,0.4
+Gujarat,Non-Veg,Egg,1.1
+Gujarat,Non-Veg,Chicken,0.3
+Gujarat,Non-Veg,Fish,2–5
+Haryana,Veg,Milk,0.5
+Haryana,Veg,Paneer,1.1
+Haryana,Veg,Buttermilk,0.3
+Haryana,Non-Veg,Egg,1.1
+Haryana,Non-Veg,Chicken,0.3
+Haryana,Non-Veg,Mutton,2
+Himachal Pradesh,Veg,Milk,0.5
+Himachal Pradesh,Veg,Paneer,1.1
+Himachal Pradesh,Veg,Curd,0.4
+Himachal Pradesh,Non-Veg,Trout fish,3
+Himachal Pradesh,Non-Veg,Egg,1.1
+Himachal Pradesh,Non-Veg,Chicken,0.3
+Jharkhand,Veg,Milk,0.5
+Jharkhand,Veg,Curd,0.4
+Jharkhand,Veg,Paneer,1.1
+Jharkhand,Non-Veg,Chicken,0.3
+Jharkhand,Non-Veg,Fish,2–5
+Jharkhand,Non-Veg,Egg,1.1
+Karnataka,Veg,Curd,0.4
+Karnataka,Veg,Paneer,1.1
+Karnataka,Veg,Milk,0.5
+Karnataka,Non-Veg,Fish,2–5
+Karnataka,Non-Veg,Chicken,0.3
+Karnataka,Non-Veg,Egg,1.1
+Kerala,Veg,Milk,0.5
+Kerala,Veg,Curd,0.4
+Kerala,Veg,Cheese,1.5
+Kerala,Non-Veg,Sardine,8
+Kerala,Non-Veg,Fish,2–5
+Kerala,Non-Veg,Egg,1.1
+Madhya Pradesh,Veg,Paneer,1.1
+Madhya Pradesh,Veg,Milk,0.5
+Madhya Pradesh,Veg,Curd,0.4
+Madhya Pradesh,Non-Veg,Chicken,0.3
+Madhya Pradesh,Non-Veg,Egg,1.1
+Madhya Pradesh,Non-Veg,Fish,2–5
+Maharashtra,Veg,Milk,0.5
+Maharashtra,Veg,Paneer,1.1
+Maharashtra,Veg,Cheese,1.5
+Maharashtra,Non-Veg,Bombay duck fish,3
+Maharashtra,Non-Veg,Egg,1.1
+Maharashtra,Non-Veg,Chicken,0.3
+Manipur,Veg,Milk,0.5
+Manipur,Veg,Curd,0.4
+Manipur,Veg,Fortified cereals,1–2
+Manipur,Non-Veg,Fish,2–5
+Manipur,Non-Veg,Pork,0.7
+Manipur,Non-Veg,Egg,1.1
+Meghalaya,Veg,Milk,0.5
+Meghalaya,Veg,Paneer,1.1
+Meghalaya,Veg,Curd,0.4
+Meghalaya,Non-Veg,Pork,0.7
+Meghalaya,Non-Veg,Chicken,0.3
+Meghalaya,Non-Veg,Fish,2–5
+Mizoram,Veg,Milk,0.5
+Mizoram,Veg,Curd,0.4
+Mizoram,Veg,Fortified cereals,1–2
+Mizoram,Non-Veg,Pork,0.7
+Mizoram,Non-Veg,Fish,2–5
+Mizoram,Non-Veg,Egg,1.1
+Nagaland,Veg,Milk,0.5
+Nagaland,Veg,Paneer,1.1
+Nagaland,Veg,Curd,0.4
+Nagaland,Non-Veg,Beef,2.6
+Nagaland,Non-Veg,Pork,0.7
+Nagaland,Non-Veg,Chicken,0.3
+Odisha,Veg,Milk,0.5
+Odisha,Veg,Curd,0.4
+Odisha,Veg,Paneer,1.1
+Odisha,Non-Veg,Fish,2–5
+Odisha,Non-Veg,Egg,1.1
+Odisha,Non-Veg,Chicken,0.3
+Punjab,Veg,Milk,0.5
+Punjab,Veg,Paneer,1.1
+Punjab,Veg,Lassi,0.4
+Punjab,Non-Veg,Chicken,0.3
+Punjab,Non-Veg,Egg,1.1
+Punjab,Non-Veg,Fish,2–5
+Rajasthan,Veg,Milk,0.5
+Rajasthan,Veg,Paneer,1.1
+Rajasthan,Veg,Curd,0.4
+Rajasthan,Non-Veg,Egg,1.1
+Rajasthan,Non-Veg,Chicken,0.3
+Rajasthan,Non-Veg,Mutton,2
+Sikkim,Veg,Milk,0.5
+Sikkim,Veg,Cheese,1.5
+Sikkim,Veg,Curd,0.4
+Sikkim,Non-Veg,Pork,0.7
+Sikkim,Non-Veg,Chicken,0.3
+Sikkim,Non-Veg,Fish,2–5
+Tamil Nadu,Veg,Curd,0.4
+Tamil Nadu,Veg,Paneer,1.1
+Tamil Nadu,Veg,Milk,0.5
+Tamil Nadu,Non-Veg,Fish,2–5
+Tamil Nadu,Non-Veg,Egg,1.1
+Tamil Nadu,Non-Veg,Chicken,0.3
+Telangana,Veg,Milk,0.5
+Telangana,Veg,Paneer,1.1
+Telangana,Veg,Curd,0.4
+Telangana,Non-Veg,Chicken,0.3
+Telangana,Non-Veg,Egg,1.1
+Telangana,Non-Veg,Fish,2–5
+Tripura,Veg,Milk,0.5
+Tripura,Veg,Curd,0.4
+Tripura,Veg,Paneer,1.1
+Tripura,Non-Veg,Fish,2–5
+Tripura,Non-Veg,Chicken,0.3
+Tripura,Non-Veg,Egg,1.1
+Uttar Pradesh,Veg,Milk,0.5
+Uttar Pradesh,Veg,Paneer,1.1
+Uttar Pradesh,Veg,Curd,0.4
+Uttar Pradesh,Non-Veg,Egg,1.1
+Uttar Pradesh,Non-Veg,Chicken,0.3
+Uttar Pradesh,Non-Veg,Fish,2–5
+Uttarakhand,Veg,Milk,0.5
+Uttarakhand,Veg,Paneer,1.1
+Uttarakhand,Veg,Curd,0.4
+Uttarakhand,Non-Veg,Fish,2–5
+Uttarakhand,Non-Veg,Egg,1.1
+Uttarakhand,Non-Veg,Chicken,0.3
+West Bengal,Veg,Curd,0.4
+West Bengal,Veg,Milk,0.5
+West Bengal,Veg,Paneer,1.1
+West Bengal,Non-Veg,Hilsa fish,7
+West Bengal,Non-Veg,Egg,1.1
+West Bengal,Non-Veg,Chicken,0.3
+Delhi (UT),Veg,Milk,0.5
+Delhi (UT),Veg,Paneer,1.1
+Delhi (UT),Veg,Curd,0.4
+Delhi (UT),Non-Veg,Egg,1.1
+Delhi (UT),Non-Veg,Chicken,0.3
+Delhi (UT),Non-Veg,Fish,2–5
+Chandigarh (UT),Veg,Milk,0.5
+Chandigarh (UT),Veg,Paneer,1.1
+Chandigarh (UT),Veg,Curd,0.4
+Chandigarh (UT),Non-Veg,Egg,1.1
+Chandigarh (UT),Non-Veg,Chicken,0.3
+Chandigarh (UT),Non-Veg,Fish,2–5
+Jammu & Kashmir (UT),Veg,Milk,0.5
+Jammu & Kashmir (UT),Veg,Paneer,1.1
+Jammu & Kashmir (UT),Veg,Curd,0.4
+Jammu & Kashmir (UT),Non-Veg,Mutton,2
+Jammu & Kashmir (UT),Non-Veg,Chicken,0.3
+Jammu & Kashmir (UT),Non-Veg,Fish,2–5
+Ladakh (UT),Veg,Milk,0.5
+Ladakh (UT),Veg,Cheese,1.5
+Ladakh (UT),Veg,Curd,0.4
+Ladakh (UT),Non-Veg,Yak meat,3
+Ladakh (UT),Non-Veg,Egg,1.1
+Ladakh (UT),Non-Veg,Chicken,0.3
+Lakshadweep (UT),Veg,Milk,0.5
+Lakshadweep (UT),Veg,Curd,0.4
+Lakshadweep (UT),Veg,Paneer,1.1
+Lakshadweep (UT),Non-Veg,Fish,2–5
+Lakshadweep (UT),Non-Veg,Tuna,4
+Lakshadweep (UT),Non-Veg,Egg,1.1
+Puducherry (UT),Veg,Milk,0.5
+Puducherry (UT),Veg,Paneer,1.1
+Puducherry (UT),Veg,Curd,0.4
+Puducherry (UT),Non-Veg,Fish,2–5
+Puducherry (UT),Non-Veg,Egg,1.1
+Puducherry (UT),Non-Veg,Chicken,0.3
+Andaman and Nicobar,Veg,Milk,0.5
+Andaman and Nicobar,Veg,Curd,0.4
+Andaman and Nicobar,Veg,Paneer,1.1
+Andaman and Nicobar,Non-Veg,Fish,2–5
+Andaman and Nicobar,Non-Veg,Prawn,1
+Andaman and Nicobar,Non-Veg,Egg,1.1
+Dadra & Nagar Haveli and Daman & Diu (UT),Veg,Milk,0.5
+Dadra & Nagar Haveli and Daman & Diu (UT),Veg,Paneer,1.1
+Dadra & Nagar Haveli and Daman & Diu (UT),Veg,Curd,0.4
+Dadra & Nagar Haveli and Daman & Diu (UT),Non-Veg,Fish,2–5
+Dadra & Nagar Haveli and Daman & Diu (UT),Non-Veg,Chicken,0.3
+Dadra & Nagar Haveli and Daman & Diu (UT),Non-Veg,Egg,1.1
