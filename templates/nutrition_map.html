@@ -183,6 +183,10 @@
                 backgroundColor: 'transparent',
                 borderWidth: 0,
                 shadow: false,
+                hideDelay: 100,
+                animation: {
+                    duration: 50
+                },
                 formatter: function () {
                     const point = this.point;
                     if (!point.display_name) return point.name;
@@ -190,44 +194,77 @@
                     const stateKey = point.display_name.toLowerCase();
                     const stateNutrData = nutritionData[stateKey] || { iron: [], b12: [] };
 
+                    // Helper for traditional Veg/Non-Veg symbol
+                    const getSym = (pref) => {
+                        const color = pref === 'non-veg' ? '#8b4513' : '#148c14';
+                        return `<div style="width: 10px; height: 10px; border: 1px solid ${color}; display: flex; align-items: center; justify-content: center; background: #fff; flex-shrink: 0; border-radius: 1px; margin-right: 6px;">
+                            <div style="width: 5px; height: 5px; border-radius: 50%; background: ${color};"></div>
+                        </div>`;
+                    };
+
                     // Iron Rows
                     let ironRows = '';
                     stateNutrData.iron.forEach(item => {
                         if (item.food) {
-                            ironRows += `<div style="font-size: 11px; color: #555;">&bull; ${item.food} <span style="color:#888;">(${item.content})</span></div>`;
+                            ironRows += `<div style="font-size: 11px; color: #555; display: flex; align-items: center; margin-bottom: 4px;">
+                                ${getSym(item.pref)}
+                                <span>${item.food} <span style="color:#888;">(${item.content})</span></span>
+                            </div>`;
                         }
                     });
 
-                    // B12 Rows
-                    let b12Rows = '';
+                    // B12 Columns (Side by Side)
+                    let b12VegHTML = '';
+                    let b12NonVegHTML = '';
+
                     stateNutrData.b12.forEach(item => {
                         if (item.food) {
-                            b12Rows += `<div style="font-size: 11px; color: #555;">&bull; ${item.food} <span style="color:#888;">(${item.content})</span></div>`;
+                            const row = `<div style="font-size: 11px; color: #555; display: flex; align-items: flex-start; margin-bottom: 5px;">
+                                <div style="margin-top: 3px;">${getSym(item.pref)}</div>
+                                <span style="line-height:1.4;">${item.food} <small style="color:#888;">(${item.content})</small></span>
+                            </div>`;
+
+                            if (item.pref === 'non-veg') b12NonVegHTML += row;
+                            else b12VegHTML += row;
                         }
                     });
 
 
                     return `
-                        <div style="padding: 12px; font-family: 'DM Sans', sans-serif; min-width: 250px; max-width: 320px; background-color: #fff; color: #333; border-radius: 8px;">
-                            <h6 style="margin-top: 0; color: #704a74; font-weight: bold; border-bottom: 2px solid #DBBCDF; padding-bottom: 6px; margin-bottom: 8px;">${point.display_name}</h6>
+                        <div style="padding: 12px; font-family: 'DM Sans', sans-serif; min-width: 320px; max-width: 450px; background-color: #fff; color: #333; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+                            <h6 style="margin-top: 0; color: #704a74; font-weight: bold; border-bottom: 2px solid #DBBCDF; padding-bottom: 8px; margin-bottom: 12px; font-size: 15px;">${point.display_name}</h6>
+                            
                             <div style="font-size: 13px; line-height: 1.5; white-space: normal;">
 
                                 ${ironRows.length > 0 ? `
-                                <div style="margin-top: 6px; margin-bottom: 4px;">
-                                    <strong style="color: #d15656; font-size: 12px;">Rich in Iron:</strong>
-                                    <div style="margin-left: 5px; margin-top: 2px;">${ironRows}</div>
+                                <div style="margin-bottom: 15px;">
+                                    <div style="color: #d15656; font-size: 12px; font-weight: bold; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px;">Rich in Iron:</div>
+                                    <div style="margin-left: 2px;">${ironRows}</div>
                                 </div>
                                 ` : ''}
 
-                                ${b12Rows.length > 0 ? `
-                                <div style="margin-top: 6px;">
-                                    <strong style="color: #4a90e2; font-size: 12px;">Rich in Vitamin B12:</strong>
-                                    <div style="margin-left: 5px; margin-top: 2px;">${b12Rows}</div>
+                                ${(b12VegHTML || b12NonVegHTML) ? `
+                                <div style="margin-top: 10px;">
+                                    <div style="color: #4a90e2; font-size: 12px; font-weight: bold; margin-bottom: 8px; letter-spacing: 0.5px;">RICH IN VITAMIN B12 (µg/100g)</div>
+                                    
+                                    <div style="display: flex; gap: 15px;">
+                                        ${b12VegHTML ? `
+                                        <div style="flex: 1;">
+                                            <div>${b12VegHTML}</div>
+                                        </div>
+                                        ` : ''}
+                                        
+                                        ${b12NonVegHTML ? `
+                                        <div style="flex: 1;">
+                                            <div>${b12NonVegHTML}</div>
+                                        </div>
+                                        ` : ''}
+                                    </div>
                                 </div>
                                 ` : ''}
 
-                                ${(ironRows.length === 0 && b12Rows.length === 0) ? `
-                                <div style="font-size: 11px; color:#999; text-align:center; font-style:italic;">No nutrition data added yet</div>
+                                ${(!ironRows && !b12VegHTML && !b12NonVegHTML) ? `
+                                <div style="font-size: 11px; color:#999; text-align:center; font-style:italic; padding: 10px 0;">No nutrition data added yet</div>
                                 ` : ''}
                             </div>
                         </div>`;
@@ -238,15 +275,25 @@
                 keys: ['hc-key', 'value', 'clinics', 'patients', 'insight', 'display_name'],
                 name: 'Nutrition Data',
                 color: '#ebd9ec',
-                borderColor: '#ffffff',
-                borderWidth: 1,
+                borderColor: '#E08BE8',
+                borderWidth: 0.7,
+                stickyTracking: true,
                 states: {
                     hover: {
-                        color: '#DBBCDF'
+                        color: '#E5A7EB',
+                        borderColor: '#7215C2',
+                        borderWidth: 0.9,
                     }
                 },
                 dataLabels: {
-                    enabled: false
+                    enabled: true,
+                    format: '{point.display_name}',
+                    style: {
+                        fontSize: '9px',
+                        fontWeight: '600',
+                        color: '#704a74',
+                        textOutline: 'none'
+                    }
                 }
             }],
             credits: { enabled: false }

@@ -28,12 +28,13 @@ import pandas as pd
 
 # Load Health Map excel data logic
 IRON_DATA = os.path.join(os.path.dirname(__file__), 'iron-rich-foods_state-wise.xlsx')
-B12_DATA = os.path.join(os.path.dirname(__file__), 'vit-b12-rich-food_state-wise.xlsx')
+B12_DATA = os.path.join(os.path.dirname(__file__), 'vitamin_b12_india_statewise.csv')
 
 def get_health_map_data():
     try:
         df_iron = pd.read_excel(IRON_DATA)
-        df_b12 = pd.read_excel(B12_DATA)
+        # Using encoding='latin1' as CSV from Excel often has non-UTF-8 characters
+        df_b12 = pd.read_csv(B12_DATA, encoding='latin1')
         
         # Prepare a dictionary: { "state_name": {"iron": [...], "b12": [...]} }
         state_data = {}
@@ -46,19 +47,43 @@ def get_health_map_data():
             
             food = str(row.get('Food Item', '')).strip()
             content = str(row.get('Iron Content (mg/100g)', '')).strip()
-            if food:
-                state_data[state]['iron'].append({'food': food, 'content': content})
+            
+            # Infer preference for Iron if column missing
+            pref = str(row.get('Food Preference', '')).strip().lower()
+            if not pref:
+                non_veg_keywords = ['egg', 'chicken', 'fish', 'meat', 'pork', 'mutton', 'beef', 'duck']
+                if any(kw in food.lower() for kw in non_veg_keywords):
+                    pref = 'non-veg'
+                else:
+                    pref = 'veg'
+
+            if food and food != 'nan':
+                state_data[state]['iron'].append({
+                    'food': food, 
+                    'content': content,
+                    'pref': 'non-veg' if 'non' in pref else 'veg'
+                })
                 
         # Parse B12 data
+        b12_col = next((c for c in df_b12.columns if 'Vitamin B12' in c), 'Vitamin B12 (µg/100g)')
+        
         for _, row in df_b12.iterrows():
-            state = str(row.get('State', '')).strip().lower()
+            state = str(row.get('State / UT', '')).strip().lower()
+            if not state or state == 'nan': continue
+            
             if state not in state_data:
                 state_data[state] = {'iron': [], 'b12': []}
                 
             food = str(row.get('Food Item', '')).strip()
-            content = str(row.get('Vitamin B12 (µg/100g)', '')).strip()
-            if food:
-                state_data[state]['b12'].append({'food': food, 'content': content})
+            content = str(row.get(b12_col, '')).strip()
+            pref = str(row.get('Food Preference', 'veg')).strip().lower()
+            
+            if food and food != 'nan':
+                state_data[state]['b12'].append({
+                    'food': food, 
+                    'content': content,
+                    'pref': 'non-veg' if 'non' in pref else 'veg'
+                })
 
         return state_data
     except Exception as e:
