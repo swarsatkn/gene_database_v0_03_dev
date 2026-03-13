@@ -94,9 +94,40 @@
 
         #regions_div {
             width: 100%;
-            height: 750px;
+            height: 600px;
             display: flex;
             justify-content: center;
+        }
+
+        /* Fixed Info Modal Styling */
+        #fixed-info-modal {
+            min-height: 250px;
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid #DBBCDF;
+            border-radius: 16px;
+            margin-top: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(112, 74, 116, 0.05);
+            transition: all 0.3s ease;
+            display: none;
+            /* Hidden until a state is hovered */
+        }
+
+        #fixed-info-modal.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Mobile specific adjustments to remove empty whitespace */
@@ -118,6 +149,7 @@
     </style>
 
     <script src="https://cdn.jsdelivr.net/npm/highcharts@11/highmaps.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highcharts@11/modules/pattern-fill.js"></script>
     <script
         src="https://cdn.jsdelivr.net/npm/@highcharts/map-collection/countries/in/custom/in-all-disputed.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.11.0/proj4.js"></script>
@@ -133,8 +165,9 @@
             // Load nutrition data created by app.py
             const nutritionData = {{ state_nutrition_data | tojson | safe
         }};
+        const availableImages = {{ available_food_images | tojson | safe }};
 
-        const statesData = [
+        const rawStatesData = [
             ['andhra pradesh', 120, 45, '1,200', 'Growing awareness in coastal areas', 'Andhra Pradesh'],
             ['arunanchal pradesh', 40, 5, '100', 'Need outreach in remote areas', 'Arunachal Pradesh'],
             ['assam', 100, 30, '800', 'Stable screening rate', 'Assam'],
@@ -173,10 +206,79 @@
             ['puducherry', 65, 15, '500', 'Specialized centers active', 'Puducherry']
         ];
 
+        // Process states to automatically use food textures
+        const statesData = rawStatesData.map(item => {
+            let key, val, clinics, patients, insight, name;
+            if (Array.isArray(item)) {
+                [key, val, clinics, patients, insight, name] = item;
+            } else {
+                key = item['hc-key'];
+                val = item.value;
+                clinics = item.clinics;
+                patients = item.patients;
+                insight = item.insight;
+                name = item.display_name;
+            }
+
+            // Normalizing name for filename (e.g. "andhra pradesh" -> "andhra_pradesh")
+            const fileKey = key.split(' ').join('_').replace(/[^a-z0-9_]/g, '');
+
+            // Find matching file in availableImages or fallback to .png
+            const matchingFile = availableImages.find(f => f.startsWith(`${fileKey}_food.`)) || `${fileKey}_food.png`;
+            const imgPath = `/static/${matchingFile}`;
+
+            return {
+                "hc-key": key,
+                value: val,
+                clinics: clinics,
+                patients: patients,
+                insight: insight,
+                display_name: name,
+                color: {
+                    pattern: {
+                        image: imgPath,
+                        aspectRatio: 1
+                    }
+                }
+            };
+        });
+
         const chart = Highcharts.mapChart('regions_div', {
             chart: {
                 map: 'countries/in/custom/in-all-disputed',
-                backgroundColor: 'transparent'
+                backgroundColor: 'transparent',
+                events: {
+                    render: function () {
+                        if (!this.container) return;
+                        const patterns = this.container.querySelectorAll('pattern');
+                        patterns.forEach(p => {
+                            const img = p.querySelector('image');
+                            if (img && !p.hasAttribute('data-fixed-tiling')) {
+                                const isMapInverted = p.getAttribute('patternTransform') && p.getAttribute('patternTransform').includes('-1');
+
+                                p.setAttribute('patternUnits', 'objectBoundingBox');
+                                p.setAttribute('patternContentUnits', 'objectBoundingBox');
+                                p.setAttribute('width', '1');
+                                p.setAttribute('height', '1');
+                                p.setAttribute('x', '0');
+                                p.setAttribute('y', '0');
+                                p.removeAttribute('patternTransform');
+
+                                img.setAttribute('width', '1');
+                                img.setAttribute('height', '1');
+                                img.setAttribute('x', '0');
+                                img.setAttribute('y', '0');
+                                img.setAttribute('preserveAspectRatio', 'xMidYMid slice');
+
+                                if (isMapInverted) {
+                                    img.setAttribute('transform', 'scale(1, -1) translate(0, -1)');
+                                }
+
+                                p.setAttribute('data-fixed-tiling', 'true');
+                            }
+                        });
+                    }
+                }
             },
             accessibility: { enabled: false },
             title: { text: null },
@@ -188,135 +290,7 @@
                 buttonOptions: { verticalAlign: 'bottom', align: 'right' }
             },
             tooltip: {
-                useHTML: true,
-                backgroundColor: 'transparent',
-                borderWidth: 0,
-                shadow: false,
-                hideDelay: 200,
-                padding: 0,
-                style: {
-                    pointerEvents: 'auto'
-                },
-                positioner: function (labelWidth, labelHeight, point) {
-                    // On mobile, force-center the "modal" tooltip
-                    if (window.innerWidth < 600) {
-                        return {
-                            x: (this.chart.chartWidth - labelWidth) / 2,
-                            y: (this.chart.chartHeight - labelHeight) / 2
-                        };
-                    }
-                    // For desktop, stay near the point but prevent overflow
-                    const x = Math.max(10, Math.min(point.plotX + this.chart.plotLeft - labelWidth / 2, window.innerWidth - labelWidth - 10));
-                    const y = point.plotY + this.chart.plotTop - labelHeight - 20;
-                    return { x: x, y: y < 10 ? 10 : y };
-                },
-                animation: {
-                    duration: 100
-                },
-                formatter: function () {
-                    const point = this.point;
-                    if (!point.display_name) return point.name;
-
-                    const stateKey = point.display_name.toLowerCase();
-                    const stateNutrData = nutritionData[stateKey] || { iron: [], b12: [] };
-
-                    // Helper for traditional Veg/Non-Veg symbol
-                    const getSym = (pref) => {
-                        const color = pref === 'non-veg' ? '#8b4513' : '#148c14';
-                        return `<div style="width: 10px; height: 10px; border: 1px solid ${color}; display: flex; align-items: center; justify-content: center; background: #fff; flex-shrink: 0; border-radius: 1px; margin-right: 6px;">
-                            <div style="width: 5px; height: 5px; border-radius: 50%; background: ${color};"></div>
-                        </div>`;
-                    };
-
-                    // Iron Columns (Side by Side)
-                    let ironVegHTML = '';
-                    let ironNonVegHTML = '';
-
-                    const clean = (val) => val.toString().trim().replace(/[^\d.a-zA-Z]/g, (m) => m.charCodeAt(0) > 127 ? '.' : m);
-
-                    stateNutrData.iron.forEach(item => {
-                        if (item.food) {
-                            const valStr = clean(item.content);
-                            const row = `<div style="font-size: 11px; color: #555; display: flex; align-items: flex-start; margin-bottom: 5px;">
-                                <div style="margin-top: 3px;">${getSym(item.pref)}</div>
-                                <span style="line-height:1.4;">${item.food} <small style="color:#888;">(${valStr})</small></span>
-                            </div>`;
-
-                            if (item.pref === 'non-veg') ironNonVegHTML += row;
-                            else ironVegHTML += row;
-                        }
-                    });
-
-                    // B12 Columns (Side by Side)
-                    let b12VegHTML = '';
-                    let b12NonVegHTML = '';
-
-                    stateNutrData.b12.forEach(item => {
-                        if (item.food) {
-                            const valStr = clean(item.content);
-                            const row = `<div style="font-size: 11px; color: #555; display: flex; align-items: flex-start; margin-bottom: 5px;">
-                                <div style="margin-top: 3px;">${getSym(item.pref)}</div>
-                                <span style="line-height:1.4;">${item.food} <small style="color:#888;">(${valStr})</small></span>
-                            </div>`;
-
-                            if (item.pref === 'non-veg') b12NonVegHTML += row;
-                            else b12VegHTML += row;
-                        }
-                    });
-
-
-                    return `
-                        <div style="padding: 12px; font-family: 'DM Sans', sans-serif; min-width: 200px; width: max-content; max-width: min(360px, 90vw); background-color: #fff; color: #333; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); overflow-x: hidden; pointer-events: auto; position: relative;">
-                            <div class="close-nutrition-btn" style="position: absolute; right: 8px; top: 6px; cursor: pointer; color: #999; font-size: 24px; line-height: 1; z-index: 1000; padding: 10px; pointer-events: auto; user-select: none; -webkit-tap-highlight-color: transparent;">&times;</div>
-                            <h6 style="margin-top: 0; color: #704a74; font-weight: bold; border-bottom: 2px solid #DBBCDF; padding-bottom: 8px; margin-bottom: 12px; font-size: 14px; white-space: nowrap; padding-right: 30px;">${point.display_name}</h6>
-                            
-                            <div style="font-size: 13px; line-height: 1.5; white-space: normal;">
-
-                                ${(ironVegHTML || ironNonVegHTML) ? `
-                                <div style="margin-bottom: 15px;">
-                                    <div style="color: #d15656; font-size: 12px; font-weight: bold; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">Rich in Iron:</div>
-                                    <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-                                        ${ironVegHTML ? `
-                                        <div style="flex: 0 0 auto; min-width: 100px;">
-                                            <div>${ironVegHTML}</div>
-                                        </div>
-                                        ` : ''}
-                                        
-                                        ${ironNonVegHTML ? `
-                                        <div style="flex: 0 0 auto; min-width: 100px;">
-                                            <div>${ironNonVegHTML}</div>
-                                        </div>
-                                        ` : ''}
-                                    </div>
-                                </div>
-                                ` : ''}
-
-                                ${(b12VegHTML || b12NonVegHTML) ? `
-                                <div style="margin-top: 10px;">
-                                    <div style="color: #4a90e2; font-size: 11px; font-weight: bold; margin-bottom: 8px; letter-spacing: 0.5px; white-space: normal;">RICH IN VITAMIN B12 (µg/100g)</div>
-                                    
-                                    <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-                                        ${b12VegHTML ? `
-                                        <div style="flex: 0 0 auto; min-width: 100px;">
-                                            <div>${b12VegHTML}</div>
-                                        </div>
-                                        ` : ''}
-                                        
-                                        ${b12NonVegHTML ? `
-                                        <div style="flex: 0 0 auto; min-width: 100px;">
-                                            <div>${b12NonVegHTML}</div>
-                                        </div>
-                                        ` : ''}
-                                    </div>
-                                </div>
-                                ` : ''}
-
-                                ${(!ironVegHTML && !ironNonVegHTML && !b12VegHTML && !b12NonVegHTML) ? `
-                                <div style="font-size: 11px; color:#999; text-align:center; font-style:italic; padding: 10px 0;">No nutrition data added yet</div>
-                                ` : ''}
-                            </div>
-                        </div>`;
-                }
+                enabled: false
             },
             series: [{
                 id: 'nutrition-series',
@@ -324,26 +298,80 @@
                 keys: ['hc-key', 'value', 'clinics', 'patients', 'insight', 'display_name'],
                 name: 'Nutrition Data',
                 color: '#ebd9ec',
-                borderColor: '#E08BE8',
-                borderWidth: 0.7,
+                borderColor: '#ffffff',
+                borderWidth: 2.0,
                 stickyTracking: true,
                 states: {
                     hover: {
-                        color: '#E5A7EB',
-                        borderColor: '#7215C2',
-                        borderWidth: 0.9,
+                        color: null,
+                        brightness: 0,
+                        borderColor: '#ebd9ec',
+                        borderWidth: 1,
+                    }
+                },
+                point: {
+                    events: {
+                        mouseOver: function () {
+                            const point = this;
+                            if (!point.display_name) return;
+
+                            const stateKey = point.display_name.toLowerCase();
+                            const stateNutrData = nutritionData[stateKey] || { iron: [], b12: [] };
+                            const modal = document.getElementById('fixed-info-modal');
+
+                            const getSym = (pref) => {
+                                const color = pref === 'non-veg' ? '#8b4513' : '#148c14';
+                                return `<div style="width: 10px; height: 10px; border: 1px solid ${color}; display: flex; align-items: center; justify-content: center; background: #fff; flex-shrink: 0; border-radius: 1px; margin-right: 6px;"><div style="width: 5px; height: 5px; border-radius: 50%; background: ${color};"></div></div>`;
+                            };
+
+                            const clean = (val) => val.toString().trim().replace(/[^\d.a-zA-Z]/g, (m) => m.charCodeAt(0) > 127 ? '.' : m);
+
+                            let ironVegHTML = '';
+                            let ironNonVegHTML = '';
+                            stateNutrData.iron.forEach(item => {
+                                if (item.food) {
+                                    const valStr = clean(item.content);
+                                    const row = `<div style="font-size: 13px; color: #555; display: flex; align-items: flex-start; margin-bottom: 5px;"><div style="margin-top: 3px;">${getSym(item.pref)}</div>${item.food} (${valStr})</div>`;
+                                    if (item.pref === 'non-veg') ironNonVegHTML += row; else ironVegHTML += row;
+                                }
+                            });
+
+                            let b12VegHTML = '';
+                            let b12NonVegHTML = '';
+                            stateNutrData.b12.forEach(item => {
+                                if (item.food) {
+                                    const valStr = clean(item.content);
+                                    const row = `<div style="font-size: 13px; color: #555; display: flex; align-items: flex-start; margin-bottom: 5px;"><div style="margin-top: 3px;">${getSym(item.pref)}</div>${item.food} (${valStr})</div>`;
+                                    if (item.pref === 'non-veg') b12NonVegHTML += row; else b12VegHTML += row;
+                                }
+                            });
+
+                            modal.innerHTML = `
+                                <h4 style="color: #704a74; font-weight: bold; border-bottom: 2px solid #DBBCDF; padding-bottom: 10px; margin-bottom: 15px;">${point.display_name}</h4>
+                                <div style="display: flex; gap: 30px; flex-wrap: wrap;">
+                                    <div style="flex: 1; min-width: 250px;">
+                                        <h6 style="color: #d15656; font-weight: bold; text-transform: uppercase; font-size: 12px; margin-bottom: 10px;">Rich in Iron</h6>
+                                        <div style="display: flex; gap: 20px;">
+                                            <div style="flex: 1;">${ironVegHTML || '<small style="color:#bbb; font-style:italic;">No Veg data</small>'}</div>
+                                            <div style="flex: 1;">${ironNonVegHTML || '<small style="color:#bbb; font-style:italic;">No Non-Veg data</small>'}</div>
+                                        </div>
+                                    </div>
+                                    <div style="flex: 1; min-width: 250px;">
+                                        <h6 style="color: #4a90e2; font-weight: bold; text-transform: uppercase; font-size: 12px; margin-bottom: 10px;">Rich in Vitamin B12</h6>
+                                        <div style="display: flex; gap: 20px;">
+                                            <div style="flex: 1;">${b12VegHTML || '<small style="color:#bbb; font-style:italic;">No Veg data</small>'}</div>
+                                            <div style="flex: 1;">${b12NonVegHTML || '<small style="color:#bbb; font-style:italic;">No Non-Veg data</small>'}</div>
+                                        </div>
+                                    </div>
+                                </div>`;
+                            modal.classList.add('active');
+                        }
                     }
                 },
                 dataLabels: {
-                    enabled: true,
+                    enabled: false,
                     format: '{point.display_name}',
-                    style: {
-                        fontFamily: "'DM Sans', sans-serif",
-                        fontSize: '8px',
-                        fontWeight: '500',
-                        color: '#704a74',
-                        textOutline: 'none'
-                    }
+                    style: { fontFamily: "'DM Sans', sans-serif", fontSize: '8px', fontWeight: '500', color: '#704a74', textOutline: 'none' }
                 }
             }, {
                 id: 'logo-desktop',
@@ -351,16 +379,7 @@
                 name: 'Slogan Logo Desktop',
                 enableMouseTracking: false,
                 visible: true,
-                data: [{
-                    name: 'Slogan',
-                    lat: 33,
-                    lon: 86,
-                    marker: {
-                        symbol: 'url({{ url_for("static", filename="Slogan_logo.png") }})',
-                        width: 150,
-                        height: 150
-                    }
-                }],
+                data: [{ name: 'Slogan', lat: 31, lon: 86, marker: { symbol: 'url({{ url_for("static", filename="fmri_gurgaon.png") }})', width: 150, height: 50 } }],
                 dataLabels: { enabled: false }
             }, {
                 id: 'logo-mobile',
@@ -368,87 +387,32 @@
                 name: 'Slogan Logo Mobile',
                 enableMouseTracking: false,
                 visible: false,
-                data: [{
-                    name: 'Slogan Mobile',
-                    lat: 33,
-                    lon: 87.0,
-                    marker: {
-                        symbol: 'url({{ url_for("static", filename="Slogan_logo.png") }})',
-                        width: 80,
-                        height: 80
-                    }
-                }],
+                data: [{ name: 'Slogan Mobile', lat: 33, lon: 87.0, marker: { symbol: 'url({{ url_for("static", filename="Slogan_logo.png") }})', width: 75, height: 25 } }],
                 dataLabels: { enabled: false }
             }],
             responsive: {
                 rules: [{
-                    condition: {
-                        maxWidth: 600
-                    },
+                    condition: { maxWidth: 600 },
                     chartOptions: {
                         series: [{
-                            id: 'nutrition-series',
-                            stickyTracking: false,
-                            dataLabels: {
-                                style: {
-                                    fontFamily: "'DM Sans', sans-serif",
-                                    fontSize: '6.5px'
-                                }
-                            }
-                        }, {
-                            id: 'logo-desktop',
-                            visible: false
-                        }, {
-                            id: 'logo-mobile',
-                            visible: true
-                        }]
+                            id: 'nutrition-series', stickyTracking: false,
+                            dataLabels: { style: { fontFamily: "'DM Sans', sans-serif", fontSize: '6.5px' } }
+                        }, { id: 'logo-desktop', visible: false }, { id: 'logo-mobile', visible: true }]
                     }
                 }]
             },
             credits: { enabled: false }
         });
 
-        // Centralized closer function to hide tooltip and clear ALL highlights
-        window.closeTooltip = function () {
-            if (chart) {
-                chart.tooltip.hide(0);
-                // Aggressively reset all states, hover effects, and pointer history
-                chart.series.forEach(s => {
-                    s.points.forEach(p => {
-                        p.setState('', true); // true forces immediate redraw
-                        if (p.select) p.select(false);
-                    });
-                });
-                if (chart.pointer) chart.pointer.reset();
-                chart.hoverPoints = [];
-            }
-        };
-
-        // Prevent body scroll when mouse is over map container to allow clean zooming
-        // Reliable event delegation for the close button
-        const regionsDiv = document.getElementById('regions_div');
-        if (regionsDiv) {
-            const handleClose = function (e) {
-                if (e.target.classList.contains('close-nutrition-btn')) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    window.closeTooltip();
-                }
-            };
-            regionsDiv.addEventListener('click', handleClose);
-            regionsDiv.addEventListener('touchstart', handleClose, { passive: false });
-        }
-
         // Close tooltip when clicking anywhere else on the screen
         document.addEventListener('click', function (e) {
             const mapDiv = document.getElementById('regions_div');
-            // If click is outside the map, hide the tooltip and completely reset map state
             if (chart && mapDiv && !mapDiv.contains(e.target)) {
-                window.closeTooltip();
+                // Reset modal state if needed, though fixed usually stays
             }
         });
 
-        }); // End of DOMContentLoaded
+        });
     </script>
 </head>
 
@@ -488,9 +452,10 @@
 
             <div id="regions_div"></div>
 
-            <div class="zoom-tip"
-                style="color: #595859; display: inline-flex; align-items: center; padding: 3px 6px; font-size: 10px; font-weight: 300; margin-bottom: 10px">
-                Zoom in for better clarity
+            <!-- Fixed Info Modal -->
+            <div id="fixed-info-modal">
+                <p style="color: #999; font-style: italic; text-align: center;">Hover over a state to see regional
+                    nutrition data</p>
             </div>
 
             <!-- RDA Information Section -->

@@ -101,7 +101,14 @@ def get_health_map_data():
 @app.route('/nutrition-map', methods=['GET'])
 def nutrition_map():
     state_nutrition_data = get_health_map_data()
-    return render_template('nutrition_map.html', state_nutrition_data=state_nutrition_data)
+    # List available food images to support both png and jpg
+    static_dir = os.path.join(app.root_path, 'static')
+    available_images = []
+    if os.path.exists(static_dir):
+        available_images = [f for f in os.listdir(static_dir) if f.endswith(('.png', '.jpg', '.jpeg')) and '_food' in f]
+    return render_template('nutrition_map.html', 
+                         state_nutrition_data=state_nutrition_data, 
+                         available_food_images=available_images)
 
 # Homepage route
 @app.route('/', methods=['GET', 'POST'])
