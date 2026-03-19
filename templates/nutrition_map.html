@@ -69,7 +69,7 @@
             font-weight: 800;
             text-align: left;
             margin-bottom: 8px;
-            font-size: 2.4rem;
+            font-size: 1.7rem;
             letter-spacing: -0.5px;
         }
 
@@ -137,13 +137,45 @@
             }
 
             .map-container {
-                padding: 20px;
-                margin-top: 25px;
-                margin-bottom: 25px;
+                padding: 10px;
+                margin-top: 15px;
+                margin-bottom: 15px;
             }
 
             h3.page-title {
-                font-size: 1.8rem;
+                font-size: 0.5rem;
+            }
+
+            /* Shrink modal text on mobile */
+            #fixed-info-modal {
+                padding: 15px !important;
+                max-height: 100px !important;
+            }
+
+            #fixed-info-modal h4 {
+                font-size: 1.1rem !important;
+                margin-bottom: 5px !important;
+            }
+
+            #fixed-info-modal h6 {
+                font-size: 9px !important;
+                letter-spacing: 0.5px;
+            }
+
+            #fixed-info-modal .food-item {
+                font-size: 10.5px !important;
+                margin-bottom: 3px !important;
+            }
+
+            #fixed-info-modal .food-pref-symbol {
+                width: 8px !important;
+                height: 8px !important;
+                margin-right: 4px !important;
+            }
+
+            #fixed-info-modal .food-pref-inner {
+                width: 4px !important;
+                height: 4px !important;
             }
         }
     </style>
@@ -321,7 +353,7 @@
 
                             const getSym = (pref) => {
                                 const color = pref === 'non-veg' ? '#8b4513' : '#148c14';
-                                return `<div style="width: 10px; height: 10px; border: 1px solid ${color}; display: flex; align-items: center; justify-content: center; background: #fff; flex-shrink: 0; border-radius: 1px; margin-right: 6px;"><div style="width: 5px; height: 5px; border-radius: 50%; background: ${color};"></div></div>`;
+                                return `<div class="food-pref-symbol" style="width: 10px; height: 10px; border: 1px solid ${color}; display: flex; align-items: center; justify-content: center; background: #fff; flex-shrink: 0; border-radius: 1px; margin-right: 6px;"><div class="food-pref-inner" style="width: 5px; height: 5px; border-radius: 50%; background: ${color};"></div></div>`;
                             };
 
                             const clean = (val) => val.toString().trim().replace(/[^\d.a-zA-Z]/g, (m) => m.charCodeAt(0) > 127 ? '.' : m);
@@ -331,7 +363,7 @@
                             stateNutrData.iron.forEach(item => {
                                 if (item.food) {
                                     const valStr = clean(item.content);
-                                    const row = `<div style="font-size: 13px; color: #555; display: flex; align-items: flex-start; margin-bottom: 5px;"><div style="margin-top: 3px;">${getSym(item.pref)}</div>${item.food} (${valStr})</div>`;
+                                    const row = `<div class="food-item" style="font-size: 13px; color: #555; display: flex; align-items: flex-start; margin-bottom: 5px;"><div style="margin-top: 3px;">${getSym(item.pref)}</div>${item.food} (${valStr})</div>`;
                                     if (item.pref === 'non-veg') ironNonVegHTML += row; else ironVegHTML += row;
                                 }
                             });
@@ -341,7 +373,7 @@
                             stateNutrData.b12.forEach(item => {
                                 if (item.food) {
                                     const valStr = clean(item.content);
-                                    const row = `<div style="font-size: 13px; color: #555; display: flex; align-items: flex-start; margin-bottom: 5px;"><div style="margin-top: 3px;">${getSym(item.pref)}</div>${item.food} (${valStr})</div>`;
+                                    const row = `<div class="food-item" style="font-size: 13px; color: #555; display: flex; align-items: flex-start; margin-bottom: 5px;"><div style="margin-top: 3px;">${getSym(item.pref)}</div>${item.food} (${valStr})</div>`;
                                     if (item.pref === 'non-veg') b12NonVegHTML += row; else b12VegHTML += row;
                                 }
                             });
@@ -387,7 +419,7 @@
                 name: 'Slogan Logo Mobile',
                 enableMouseTracking: false,
                 visible: false,
-                data: [{ name: 'Slogan Mobile', lat: 33, lon: 87.0, marker: { symbol: 'url({{ url_for("static", filename="fmri_gurgaon.png") }})', width: 75, height: 25 } }],
+                data: [{ name: 'Slogan Mobile', lat: 32, lon: 87.0, marker: { symbol: 'url({{ url_for("static", filename="fmri_gurgaon.png") }})', width: 100, height: 33 } }],
                 dataLabels: { enabled: false }
             }],
             responsive: {
