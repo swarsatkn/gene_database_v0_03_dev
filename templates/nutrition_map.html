@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='Hemegene Logo.png') }}">
-    <title>Hemegene &#946; - Nutrition Map</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='Hemegene.gif') }}">
+    <title>Hemegene - Nutrition Map</title>
 
     <!-- Google Font: DM Sans -->
     <link
@@ -66,17 +66,17 @@
 
         .page-title {
             color: #5a355e;
-            font-weight: 800;
+            font-weight: 500;
             text-align: left;
             margin-bottom: 8px;
-            font-size: 1.7rem;
+            font-size: 1.5rem;
             letter-spacing: -0.5px;
         }
 
         .page-subtitle {
             text-align: left;
             color: #8c6b8f;
-            font-size: 1.15rem;
+            font-size: 0.7rem;
             margin-bottom: 35px;
             font-weight: 400;
         }
@@ -382,14 +382,14 @@
                                 <h4 style="color: #704a74; font-weight: bold; border-bottom: 2px solid #DBBCDF; padding-bottom: 10px; margin-bottom: 15px;">${point.display_name}</h4>
                                 <div style="display: flex; gap: 30px; flex-wrap: wrap;">
                                     <div style="flex: 1; min-width: 250px;">
-                                        <h6 style="color: #d15656; font-weight: bold; text-transform: uppercase; font-size: 12px; margin-bottom: 10px;">Rich in Iron</h6>
+                                        <h6 style="color: #d15656; font-weight: bold; font-size: 12px; margin-bottom: 10px;">RICH IN IRON (mg/100g)</h6>
                                         <div style="display: flex; gap: 20px;">
                                             <div style="flex: 1;">${ironVegHTML || '<small style="color:#bbb; font-style:italic;">No Veg data</small>'}</div>
                                             <div style="flex: 1;">${ironNonVegHTML || '<small style="color:#bbb; font-style:italic;">No Non-Veg data</small>'}</div>
                                         </div>
                                     </div>
                                     <div style="flex: 1; min-width: 250px;">
-                                        <h6 style="color: #4a90e2; font-weight: bold; text-transform: uppercase; font-size: 12px; margin-bottom: 10px;">Rich in Vitamin B12</h6>
+                                        <h6 style="color: #4a90e2; font-weight: bold; font-size: 12px; margin-bottom: 10px;">RICH IN VITAMIN B12 (µg/100g)</h6>
                                         <div style="display: flex; gap: 20px;">
                                             <div style="flex: 1;">${b12VegHTML || '<small style="color:#bbb; font-style:italic;">No Veg data</small>'}</div>
                                             <div style="flex: 1;">${b12NonVegHTML || '<small style="color:#bbb; font-style:italic;">No Non-Veg data</small>'}</div>
@@ -452,9 +452,31 @@
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #DBBCDF;">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/">Hemegene <sup>&#946;</sup></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <a class="navbar-brand" href="/" style="display: flex; align-items: center;">
+                <div
+                    style="background-color: white; width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); overflow: hidden;">
+                    <img src="{{ url_for('static', filename='Hemegene.gif') }}" alt="Hemegene Logo"
+                        style="height: 38px; width: auto;">
+                </div>
+                <span style="font-weight: 500;">Hemegene</span>
+            </a>
+
+            <!-- Clinical Authority: Fortis Logo on Right (Desktop) -->
+            <div class="ms-auto d-flex align-items-center order-md-2" style="margin-right: 15px;">
+
+                <div
+                    style="background-color: white; padding: 4px 10px; border-radius: 6px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <a href="https://www.fortishealthcare.com/location/fortis-memorial-research-institute-gurgaon"
+                        target="_blank">
+                        <img src="{{ url_for('static', filename='fmri_gurgaon.png') }}" alt="Fortis Logo"
+                            style="height: 32px; width: auto;">
+                    </a>
+                </div>
+            </div>
+
+            <button class="navbar-toggler order-md-3" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -517,7 +539,17 @@
                     By identifying localized deficiencies or an abundance of <strong>Iron</strong> and <strong>Vitamin
                         B12</strong>, healthcare providers can confidently prescribe proactive interventions, suggest
                     geographically tailored dietary plans, and improve the precision of patient screening and therapy.
-                </p>
+        <div class="text-center" style="margin-top: 60px; margin-bottom: 40px;">
+            <p style="color: #704a74; margin-bottom: 20px; font-weight: 500;">Developed and maintained by</p>
+            <div class="d-flex justify-content-center align-items-center gap-4">
+                <a href="https://academic.oup.com/intqhc/article-abstract/37/1/mzaf016/8026021" target="_blank">
+                    <img src="{{ url_for('static', filename='HemeTEAM.png') }}" alt="HemeTeam Logo"
+                        style="height: 60px; width: auto;">
+                </a>
+                <a href="https://www.jivana.org.in" target="_blank">
+                    <img src="{{ url_for('static', filename='JIVANA-blacklogo.png') }}" alt="Jivana AI Logo"
+                        style="height: 60px; width: auto;">
+                </a>
             </div>
         </div>
     </div>
@@ -534,21 +566,15 @@
                             style="color: gray; text-decoration: none;">support@jivana.org.in</a></p>
                     <p style="color: gray; margin-bottom: 0;">&#169; Hemegene</p>
                 </div>
-                <div class="col-md-6 text-md-end text-center mt-4 mt-md-0">
-                    <p style="color: gray; margin-bottom: 10px; font-weight: 500;">Powered by</p>
-                    <a href="https://www.jivana.org.in" target="_blank">
-                        <img src="{{ url_for('static', filename='JIVANA-blacklogo.png') }}" alt="Jivana Logo"
-                            class="footer-logo" style="height: 80px;">
-                    </a>
-                </div>
-            </div>
-        </div>
-    </footer>
 
-    <!-- Bootstrap JavaScript and Popper.js -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+            </div>
+
+
+
+            <!-- Bootstrap JavaScript and Popper.js -->
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
 </body>
 
 </html>

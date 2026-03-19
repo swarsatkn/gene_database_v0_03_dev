@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='Hemegene Logo.png') }}">
-    <title>Hemegene &#946;</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='Hemegene.gif') }}">
+    <title>Hemegene</title>
 
     <!-- Google Font: DM Sans -->
     <link
@@ -124,9 +124,31 @@
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #DBBCDF;">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/">Hemegene <sup>&#946;</sup></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <a class="navbar-brand" href="/" style="display: flex; align-items: center;">
+                <div
+                    style="background-color: white; width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); overflow: hidden;">
+                    <img src="{{ url_for('static', filename='Hemegene.gif') }}" alt="Hemegene Logo"
+                        style="height: 38px; width: auto;">
+                </div>
+                <span style="font-weight: 500;">Hemegene</span>
+            </a>
+
+            <!-- Clinical Authority: Fortis Logo on Right (Desktop) -->
+            <div class="ms-auto d-flex align-items-center order-md-2" style="margin-right: 15px;">
+
+                <div
+                    style="background-color: white; padding: 4px 10px; border-radius: 6px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <a href="https://www.fortishealthcare.com/location/fortis-memorial-research-institute-gurgaon"
+                        target="_blank">
+                        <img src="{{ url_for('static', filename='fmri_gurgaon.png') }}" alt="Fortis Logo"
+                            style="height: 32px; width: auto;">
+                    </a>
+                </div>
+            </div>
+
+            <button class="navbar-toggler order-md-3" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -151,19 +173,24 @@
     <!-- Main Container -->
     <div class="container">
         <div class="section-wrapper">
-            <h3 style="color: #704a74; text-align: left;">About Hemegene</h3>
-            <p style="color: #555; font-size: 1.1rem; line-height: 1.8;">
-                <b>Hemegene</b> is a trusted knowledge base for gene mutations related to Acute Myeloid Leukemia (AML).
-                Developed through collaboration between medical experts and data scientists, <b>Hemegene</b> offers a
-                user-friendly platform for healthcare professionals to explore essential genetic information crucial for
-                AML diagnosis and treatment.
+            <h3 class="text-center" style="color: #704a74;">
+                <img href="/" src="{{ url_for('static', filename='Hemegene.gif') }}" alt="Hemegene Logo"
+                    style="height: 150px; width: 150px"><br><br>
+                About Hemegene
+            </h3>
+            <p style="color: #555; font-size: 1.1rem; line-height: 1.8; text-align: justify;">
+                <b>Hemegene</b> is a trusted clinical knowledge base for gene mutations related to Acute Myeloid
+                Leukemia (AML). Developed by HemeTeam India and <b>Jivana AI</b> under the aegis of <b>Fortis Memorial
+                    Research Institute (FMRI)</b>, <b>Hemegene</b> offers a user-friendly platform for healthcare
+                professionals to explore essential genetic information crucial for AML diagnosis and treatment.
             </p>
-            <p style="color: #555; font-size: 1.1rem; line-height: 1.8;">
-                Our mission is to provide accurate, easily accessible, up-to-date genetic data that supports informed
-                decision-making in precision medicine, ultimately improving outcomes for AML patients. Furthermore, our
-                newly integrated <b>Interactive Nutrition Map</b> empowers researchers to uncover vital regional dietary
-                patterns—such as Iron and Vitamin B12 densities—bridging the gap between localized nutritional awareness
-                and advanced therapeutic interventions.
+            <p style="color: #555; font-size: 1.1rem; line-height: 1.8; text-align: justify;">
+                Our mission is to provide accurate, easily accessible, and up-to-date genetic data that supports
+                informed
+                decision-making in precision medicine, ultimately improving outcomes for AML patients.<br><br>
+                Additionally, the newly integrated <b>Interactive Nutrition Map</b> is a dedicated initiative for
+                spreading awareness about regional nutritional statuses—such as Iron and Vitamin B12
+                densities—helping users understand localized dietary needs and their impact on health.
             </p>
         </div>
 
@@ -213,12 +240,20 @@
                 </div>
             </div>
         </div>
+        <div class="text-center" style="margin-top: 60px; margin-bottom: 40px;">
+            <p style="color: #e5e5e6; margin-bottom: 20px; font-weight: 200;">Developed and maintained by</p>
+            <div class="d-flex justify-content-center align-items-center gap-4">
+                <a href="https://academic.oup.com/intqhc/article-abstract/37/1/mzaf016/8026021" target="_blank">
+                    <img src="{{ url_for('static', filename='HemeTEAM.png') }}" alt="HemeTeam Logo"
+                        style="height: 60px; width: auto;">
+                </a>
+                <a href="https://www.jivana.org.in" target="_blank">
+                    <img src="{{ url_for('static', filename='JIVANA-blacklogo.png') }}" alt="Jivana AI Logo"
+                        style="height: 60px; width: auto;">
+                </a>
+            </div>
+        </div>
     </div>
-
-    <p class="text-center" style="color: #704a74;">
-        <img href="/" src="{{ url_for('static', filename='Fortis Collab Logo.png') }}" alt="Fortis Logo"
-            style="height: 75; width: 168px">
-    </p>
 
     <!-- Standardized Footer -->
     <footer class="bg-light mt-auto">
@@ -230,13 +265,6 @@
                             href="mailto:support@jivana.org.in"
                             style="color: gray; text-decoration: none;">support@jivana.org.in</a></p>
                     <p style="color: gray; margin-bottom: 0;">&#169; Hemegene</p>
-                </div>
-                <div class="col-md-6 text-md-end text-center mt-4 mt-md-0">
-                    <p style="color: gray; margin-bottom: 10px; font-weight: 500;">Powered by</p>
-                    <a href="https://www.jivana.org.in" target="_blank">
-                        <img src="{{ url_for('static', filename='JIVANA-blacklogo.png') }}" alt="Jivana Logo"
-                            class="footer-logo" style="height: 80px;">
-                    </a>
                 </div>
             </div>
         </div>
