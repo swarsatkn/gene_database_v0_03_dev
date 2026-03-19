@@ -122,53 +122,35 @@
 
 <body>
     <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #DBBCDF; padding: 0.5rem 0;">
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #DBBCDF; padding: 0.4rem 0.5rem;">
         <div class="container-fluid">
-            <!-- Brand, Logo, and Toggler row -->
-            <div class="d-flex align-items-center justify-content-between w-100 flex-nowrap">
-                <a class="navbar-brand d-flex align-items-center m-0" href="/" style="flex-shrink: 0;">
-                    <div
-                        style="background-color: white; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); overflow: hidden;">
-                        <img src="{{ url_for('static', filename='Hemegene.gif') }}" alt="Hemegene Logo"
-                            style="height: 30px; width: auto;">
-                    </div>
-                    <span style="font-weight: 500; font-size: 1rem;">Hemegene</span>
-                </a>
-
-                <!-- Clinical Authority: Fortis Logo -->
-                <div class="d-flex align-items-center mx-2" style="flex-shrink: 0;">
-                    <div
-                        style="background-color: white; padding: 4px 8px; border-radius: 6px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                        <a href="https://www.fortishealthcare.com/location/fortis-memorial-research-institute-gurgaon"
-                            target="_blank">
-                            <img src="{{ url_for('static', filename='fmri_gurgaon.png') }}" alt="Fortis Logo"
-                                style="height: 24px; width: auto;">
-                        </a>
-                    </div>
+            <a class="navbar-brand d-flex align-items-center" href="/" style="flex-shrink: 0;">
+                <div style="background-color: white; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); overflow: hidden; flex-shrink: 0;">
+                    <img src="{{ url_for('static', filename='Hemegene.gif') }}" alt="Hemegene Logo" style="height: 30px; width: auto;">
                 </div>
+                <span style="font-weight: 500; font-size: 1rem;">Hemegene</span>
+            </a>
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"
-                    style="padding: 0.2rem 0.4rem; font-size: 0.8rem; flex-shrink: 0;">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+            <div class="d-flex align-items-center ms-auto me-2 order-lg-3">
+                <div style="background-color: white; padding: 3px 7px; border-radius: 6px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <a href="https://www.fortishealthcare.com/location/fortis-memorial-research-institute-gurgaon" target="_blank">
+                        <img src="{{ url_for('static', filename='fmri_gurgaon.png') }}" alt="Fortis Logo" style="height: 28px; width: auto;">
+                    </a>
+                </div>
             </div>
 
-            <!-- Links are outside the flex row wrapper to remain collapsible -->
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto py-2 text-end">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/about">About Us</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/nutrition-map">Nutrition Map</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#contact">Contact</a>
-                    </li>
+            <button class="navbar-toggler order-lg-4" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"
+                style="padding: 0.2rem 0.4rem; font-size: 0.8rem; border: 1px solid rgba(112,74,116,0.3);">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse order-lg-2" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/about">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/nutrition-map">Nutrition Map</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
                 </ul>
             </div>
         </div>
