@@ -59,6 +59,48 @@
             transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
 
+        /* Loading Overlay Styles */
+        #loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #fbf8fc;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: opacity 0.5s ease;
+        }
+
+        .dna-spinner {
+            width: 80px;
+            height: 80px;
+            border: 5px solid #DBBCDF;
+            border-top-color: #704a74;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            color: #704a74;
+            font-weight: 500;
+            letter-spacing: 1px;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
         .map-container:hover {
             transform: translateY(-8px);
             box-shadow: 0 25px 60px rgba(112, 74, 116, 0.12);
@@ -195,11 +237,10 @@
 
         document.addEventListener('DOMContentLoaded', function () {
             // Load nutrition data created by app.py
-            const nutritionData = {{ state_nutrition_data | tojson | safe
-        }};
-        const availableImages = {{ available_food_images | tojson | safe }};
+            const nutritionData = {{ state_nutrition_data | tojson | safe }};
+            const availableImages = {{ available_food_images | tojson | safe }};
 
-        const rawStatesData = [
+            const rawStatesData = [
             ['andhra pradesh', 120, 45, '1,200', 'Growing awareness in coastal areas', 'Andhra Pradesh'],
             ['arunanchal pradesh', 40, 5, '100', 'Need outreach in remote areas', 'Arunachal Pradesh'],
             ['assam', 100, 30, '800', 'Stable screening rate', 'Assam'],
@@ -238,26 +279,29 @@
             ['puducherry', 65, 15, '500', 'Specialized centers active', 'Puducherry']
         ];
 
-        // Process states to automatically use food textures
-        const statesData = rawStatesData.map(item => {
-            let key, val, clinics, patients, insight, name;
-            if (Array.isArray(item)) {
-                [key, val, clinics, patients, insight, name] = item;
-            } else {
-                key = item['hc-key'];
-                val = item.value;
-                clinics = item.clinics;
-                patients = item.patients;
-                insight = item.insight;
-                name = item.display_name;
-            }
+            // Process states to automatically use optimized food textures
+            const statesData = rawStatesData.map(item => {
+                let key, val, clinics, patients, insight, name;
+                if (Array.isArray(item)) {
+                    [key, val, clinics, patients, insight, name] = item;
+                } else {
+                    key = item['hc-key'];
+                    val = item.value;
+                    clinics = item.clinics;
+                    patients = item.patients;
+                    insight = item.insight;
+                    name = item.display_name;
+                }
 
-            // Normalizing name for filename (e.g. "andhra pradesh" -> "andhra_pradesh")
-            const fileKey = key.split(' ').join('_').replace(/[^a-z0-9_]/g, '');
+                // Normalizing name for filename (e.g. "andhra pradesh" -> "andhra_pradesh")
+                const fileKey = key.split(' ').join('_').replace(/[^a-z0-9_]/g, '');
 
-            // Find matching file in availableImages or fallback to .png
-            const matchingFile = availableImages.find(f => f.startsWith(`${fileKey}_food.`)) || `${fileKey}_food.png`;
-            const imgPath = `/static/state_food_images/${matchingFile}`;
+                // Prioritize optimized webp versions created by our script
+                const matchingFile = availableImages.find(f => f === `${fileKey}_food.webp`) || 
+                                   availableImages.find(f => f.startsWith(`${fileKey}_food.`)) || 
+                                   `${fileKey}_food.png`;
+                
+                const imgPath = `/static/state_food_images/${matchingFile}`;
 
             return {
                 "hc-key": key,
@@ -444,11 +488,25 @@
             }
         });
 
+            // Hide loading screen after small delay to ensure rendering finished
+            setTimeout(() => {
+                const overlay = document.getElementById('loading-overlay');
+                if (overlay) {
+                    overlay.style.opacity = '0';
+                    setTimeout(() => overlay.remove(), 500);
+                }
+            }, 800);
         });
     </script>
 </head>
 
 <body>
+    <!-- Loading Screen -->
+    <div id="loading-overlay">
+        <div class="dna-spinner"></div>
+        <div class="loading-text">Initializing Hemegene Nexus...</div>
+    </div>
+
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #DBBCDF; padding: 0.5rem 0;">
         <div class="container-fluid">
