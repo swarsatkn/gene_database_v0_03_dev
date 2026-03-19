@@ -1,0 +1,223 @@
+State / UT,Food Preference,Food Item,Iron (mg/100g)
+Andhra Pradesh,Veg,Spinach,2.7
+Andhra Pradesh,Veg,Amaranth leaves,2.3
+Andhra Pradesh,Veg,Drumstick leaves,4
+Andhra Pradesh,Non-Veg,Chicken liver,9
+Andhra Pradesh,Non-Veg,Mutton,2.7
+Andhra Pradesh,Non-Veg,Egg,1.2
+Arunachal Pradesh,Veg,Ragi,3.9
+Arunachal Pradesh,Veg,Bajra,8
+Arunachal Pradesh,Veg,Jaggery,11
+Arunachal Pradesh,Non-Veg,Sardines,2.9
+Arunachal Pradesh,Non-Veg,Fish,1
+Arunachal Pradesh,Non-Veg,Prawns,2.6
+Assam,Veg,Sesame seeds,14.6
+Assam,Veg,Rajma,5.1
+Assam,Veg,Soybeans,15
+Assam,Non-Veg,Clams,28
+Assam,Non-Veg,Crab,0.8
+Assam,Non-Veg,Chicken,1.3
+Bihar,Veg,Black gram (Urad),7.6
+Bihar,Veg,Chickpeas,6
+Bihar,Veg,Lotus stem,1.4
+Bihar,Non-Veg,Duck meat,2.7
+Bihar,Non-Veg,Chicken liver,9
+Bihar,Non-Veg,Mutton,2.7
+Chhattisgarh,Veg,Garden cress seeds,100
+Chhattisgarh,Veg,Mustard greens,1.6
+Chhattisgarh,Veg,Fenugreek leaves,1.9
+Chhattisgarh,Non-Veg,Egg,1.2
+Chhattisgarh,Non-Veg,Sardines,2.9
+Chhattisgarh,Non-Veg,Fish,1
+Goa,Veg,Spinach,2.7
+Goa,Veg,Amaranth leaves,2.3
+Goa,Veg,Drumstick leaves,4
+Goa,Non-Veg,Prawns,2.6
+Goa,Non-Veg,Clams,28
+Goa,Non-Veg,Crab,0.8
+Gujarat,Veg,Ragi,3.9
+Gujarat,Veg,Bajra,8
+Gujarat,Veg,Jaggery,11
+Gujarat,Non-Veg,Chicken,1.3
+Gujarat,Non-Veg,Duck meat,2.7
+Gujarat,Non-Veg,Chicken liver,9
+Haryana,Veg,Sesame seeds,14.6
+Haryana,Veg,Rajma,5.1
+Haryana,Veg,Soybeans,15
+Haryana,Non-Veg,Mutton,2.7
+Haryana,Non-Veg,Egg,1.2
+Haryana,Non-Veg,Sardines,2.9
+Himachal Pradesh,Veg,Black gram (Urad),7.6
+Himachal Pradesh,Veg,Chickpeas,6
+Himachal Pradesh,Veg,Lotus stem,1.4
+Himachal Pradesh,Non-Veg,Fish,1
+Himachal Pradesh,Non-Veg,Prawns,2.6
+Himachal Pradesh,Non-Veg,Clams,28
+Jharkhand,Veg,Garden cress seeds,100
+Jharkhand,Veg,Mustard greens,1.6
+Jharkhand,Veg,Fenugreek leaves,1.9
+Jharkhand,Non-Veg,Crab,0.8
+Jharkhand,Non-Veg,Chicken,1.3
+Jharkhand,Non-Veg,Duck meat,2.7
+Karnataka,Veg,Spinach,2.7
+Karnataka,Veg,Amaranth leaves,2.3
+Karnataka,Veg,Drumstick leaves,4
+Karnataka,Non-Veg,Chicken liver,9
+Karnataka,Non-Veg,Mutton,2.7
+Karnataka,Non-Veg,Egg,1.2
+Kerala,Veg,Ragi,3.9
+Kerala,Veg,Bajra,8
+Kerala,Veg,Jaggery,11
+Kerala,Non-Veg,Sardines,2.9
+Kerala,Non-Veg,Fish,1
+Kerala,Non-Veg,Prawns,2.6
+Madhya Pradesh,Veg,Sesame seeds,14.6
+Madhya Pradesh,Veg,Rajma,5.1
+Madhya Pradesh,Veg,Soybeans,15
+Madhya Pradesh,Non-Veg,Clams,28
+Madhya Pradesh,Non-Veg,Crab,0.8
+Madhya Pradesh,Non-Veg,Chicken,1.3
+Maharashtra,Veg,Black gram (Urad),7.6
+Maharashtra,Veg,Chickpeas,6
+Maharashtra,Veg,Lotus stem,1.4
+Maharashtra,Non-Veg,Duck meat,2.7
+Maharashtra,Non-Veg,Chicken liver,9
+Maharashtra,Non-Veg,Mutton,2.7
+Manipur,Veg,Garden cress seeds,100
+Manipur,Veg,Mustard greens,1.6
+Manipur,Veg,Fenugreek leaves,1.9
+Manipur,Non-Veg,Egg,1.2
+Manipur,Non-Veg,Sardines,2.9
+Manipur,Non-Veg,Fish,1
+Meghalaya,Veg,Spinach,2.7
+Meghalaya,Veg,Amaranth leaves,2.3
+Meghalaya,Veg,Drumstick leaves,4
+Meghalaya,Non-Veg,Prawns,2.6
+Meghalaya,Non-Veg,Clams,28
+Meghalaya,Non-Veg,Crab,0.8
+Mizoram,Veg,Ragi,3.9
+Mizoram,Veg,Bajra,8
+Mizoram,Veg,Jaggery,11
+Mizoram,Non-Veg,Chicken,1.3
+Mizoram,Non-Veg,Duck meat,2.7
+Mizoram,Non-Veg,Chicken liver,9
+Nagaland,Veg,Sesame seeds,14.6
+Nagaland,Veg,Rajma,5.1
+Nagaland,Veg,Soybeans,15
+Nagaland,Non-Veg,Mutton,2.7
+Nagaland,Non-Veg,Egg,1.2
+Nagaland,Non-Veg,Sardines,2.9
+Odisha,Veg,Black gram (Urad),7.6
+Odisha,Veg,Chickpeas,6
+Odisha,Veg,Lotus stem,1.4
+Odisha,Non-Veg,Fish,1
+Odisha,Non-Veg,Prawns,2.6
+Odisha,Non-Veg,Clams,28
+Punjab,Veg,Garden cress seeds,100
+Punjab,Veg,Mustard greens,1.6
+Punjab,Veg,Fenugreek leaves,1.9
+Punjab,Non-Veg,Crab,0.8
+Punjab,Non-Veg,Chicken,1.3
+Punjab,Non-Veg,Duck meat,2.7
+Rajasthan,Veg,Spinach,2.7
+Rajasthan,Veg,Amaranth leaves,2.3
+Rajasthan,Veg,Drumstick leaves,4
+Rajasthan,Non-Veg,Chicken liver,9
+Rajasthan,Non-Veg,Mutton,2.7
+Rajasthan,Non-Veg,Egg,1.2
+Sikkim,Veg,Ragi,3.9
+Sikkim,Veg,Bajra,8
+Sikkim,Veg,Jaggery,11
+Sikkim,Non-Veg,Sardines,2.9
+Sikkim,Non-Veg,Fish,1
+Sikkim,Non-Veg,Prawns,2.6
+Tamil Nadu,Veg,Sesame seeds,14.6
+Tamil Nadu,Veg,Rajma,5.1
+Tamil Nadu,Veg,Soybeans,15
+Tamil Nadu,Non-Veg,Clams,28
+Tamil Nadu,Non-Veg,Crab,0.8
+Tamil Nadu,Non-Veg,Chicken,1.3
+Telangana,Veg,Black gram (Urad),7.6
+Telangana,Veg,Chickpeas,6
+Telangana,Veg,Lotus stem,1.4
+Telangana,Non-Veg,Duck meat,2.7
+Telangana,Non-Veg,Chicken liver,9
+Telangana,Non-Veg,Mutton,2.7
+Tripura,Veg,Garden cress seeds,100
+Tripura,Veg,Mustard greens,1.6
+Tripura,Veg,Fenugreek leaves,1.9
+Tripura,Non-Veg,Egg,1.2
+Tripura,Non-Veg,Sardines,2.9
+Tripura,Non-Veg,Fish,1
+Uttar Pradesh,Veg,Spinach,2.7
+Uttar Pradesh,Veg,Amaranth leaves,2.3
+Uttar Pradesh,Veg,Drumstick leaves,4
+Uttar Pradesh,Non-Veg,Prawns,2.6
+Uttar Pradesh,Non-Veg,Clams,28
+Uttar Pradesh,Non-Veg,Crab,0.8
+Uttarakhand,Veg,Ragi,3.9
+Uttarakhand,Veg,Bajra,8
+Uttarakhand,Veg,Jaggery,11
+Uttarakhand,Non-Veg,Chicken,1.3
+Uttarakhand,Non-Veg,Duck meat,2.7
+Uttarakhand,Non-Veg,Chicken liver,9
+West Bengal,Veg,Sesame seeds,14.6
+West Bengal,Veg,Rajma,5.1
+West Bengal,Veg,Soybeans,15
+West Bengal,Non-Veg,Mutton,2.7
+West Bengal,Non-Veg,Egg,1.2
+West Bengal,Non-Veg,Sardines,2.9
+Delhi,Veg,Black gram (Urad),7.6
+Delhi,Veg,Chickpeas,6
+Delhi,Veg,Lotus stem,1.4
+Delhi,Non-Veg,Fish,1
+Delhi,Non-Veg,Prawns,2.6
+Delhi,Non-Veg,Clams,28
+Chandigarh,Veg,Garden cress seeds,100
+Chandigarh,Veg,Mustard greens,1.6
+Chandigarh,Veg,Fenugreek leaves,1.9
+Chandigarh,Non-Veg,Crab,0.8
+Chandigarh,Non-Veg,Chicken,1.3
+Chandigarh,Non-Veg,Duck meat,2.7
+Jammu & Kashmir,Veg,Spinach,2.7
+Jammu & Kashmir,Veg,Amaranth leaves,2.3
+Jammu & Kashmir,Veg,Drumstick leaves,4
+Jammu & Kashmir,Non-Veg,Chicken liver,9
+Jammu & Kashmir,Non-Veg,Mutton,2.7
+Jammu & Kashmir,Non-Veg,Egg,1.2
+Ladakh,Veg,Ragi,3.9
+Ladakh,Veg,Bajra,8
+Ladakh,Veg,Jaggery,11
+Ladakh,Non-Veg,Sardines,2.9
+Ladakh,Non-Veg,Fish,1
+Ladakh,Non-Veg,Prawns,2.6
+Lakshadweep,Veg,Sesame seeds,14.6
+Lakshadweep,Veg,Rajma,5.1
+Lakshadweep,Veg,Soybeans,15
+Lakshadweep,Non-Veg,Clams,28
+Lakshadweep,Non-Veg,Crab,0.8
+Lakshadweep,Non-Veg,Chicken,1.3
+Puducherry,Veg,Black gram (Urad),7.6
+Puducherry,Veg,Chickpeas,6
+Puducherry,Veg,Lotus stem,1.4
+Puducherry,Non-Veg,Duck meat,2.7
+Puducherry,Non-Veg,Chicken liver,9
+Puducherry,Non-Veg,Mutton,2.7
+Andaman and Nicobar Islands,Veg,Garden cress seeds,100
+Andaman and Nicobar Islands,Veg,Mustard greens,1.6
+Andaman and Nicobar Islands,Veg,Fenugreek leaves,1.9
+Andaman and Nicobar Islands,Non-Veg,Egg,1.2
+Andaman and Nicobar Islands,Non-Veg,Sardines,2.9
+Andaman and Nicobar Islands,Non-Veg,Fish,1
+Dadra and Nagar Haveli,Veg,Spinach,2.7
+Dadra and Nagar Haveli,Veg,Amaranth leaves,2.3
+Dadra and Nagar Haveli,Veg,Drumstick leaves,4
+Dadra and Nagar Haveli,Non-Veg,Prawns,2.6
+Dadra and Nagar Haveli,Non-Veg,Clams,28
+Dadra and Nagar Haveli,Non-Veg,Crab,0.8
+Daman and Diu,Veg,Spinach,2.7
+Daman and Diu,Veg,Amaranth leaves,2.3
+Daman and Diu,Veg,Drumstick leaves,4
+Daman and Diu,Non-Veg,Prawns,2.6
+Daman and Diu,Non-Veg,Clams,28
+Daman and Diu,Non-Veg,Crab,0.8

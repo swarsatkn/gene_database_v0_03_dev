@@ -167,51 +167,57 @@ West Bengal,Veg,Paneer,1.1
 West Bengal,Non-Veg,Hilsa fish,7
 West Bengal,Non-Veg,Egg,1.1
 West Bengal,Non-Veg,Chicken,0.3
-Delhi (UT),Veg,Milk,0.5
-Delhi (UT),Veg,Paneer,1.1
-Delhi (UT),Veg,Curd,0.4
-Delhi (UT),Non-Veg,Egg,1.1
-Delhi (UT),Non-Veg,Chicken,0.3
-Delhi (UT),Non-Veg,Fish,2–5
-Chandigarh (UT),Veg,Milk,0.5
-Chandigarh (UT),Veg,Paneer,1.1
-Chandigarh (UT),Veg,Curd,0.4
-Chandigarh (UT),Non-Veg,Egg,1.1
-Chandigarh (UT),Non-Veg,Chicken,0.3
-Chandigarh (UT),Non-Veg,Fish,2–5
-Jammu & Kashmir (UT),Veg,Milk,0.5
-Jammu & Kashmir (UT),Veg,Paneer,1.1
-Jammu & Kashmir (UT),Veg,Curd,0.4
-Jammu & Kashmir (UT),Non-Veg,Mutton,2
-Jammu & Kashmir (UT),Non-Veg,Chicken,0.3
-Jammu & Kashmir (UT),Non-Veg,Fish,2–5
-Ladakh (UT),Veg,Milk,0.5
-Ladakh (UT),Veg,Cheese,1.5
-Ladakh (UT),Veg,Curd,0.4
-Ladakh (UT),Non-Veg,Yak meat,3
-Ladakh (UT),Non-Veg,Egg,1.1
-Ladakh (UT),Non-Veg,Chicken,0.3
-Lakshadweep (UT),Veg,Milk,0.5
-Lakshadweep (UT),Veg,Curd,0.4
-Lakshadweep (UT),Veg,Paneer,1.1
-Lakshadweep (UT),Non-Veg,Fish,2–5
-Lakshadweep (UT),Non-Veg,Tuna,4
-Lakshadweep (UT),Non-Veg,Egg,1.1
-Puducherry (UT),Veg,Milk,0.5
-Puducherry (UT),Veg,Paneer,1.1
-Puducherry (UT),Veg,Curd,0.4
-Puducherry (UT),Non-Veg,Fish,2–5
-Puducherry (UT),Non-Veg,Egg,1.1
-Puducherry (UT),Non-Veg,Chicken,0.3
+Delhi,Veg,Milk,0.5
+Delhi,Veg,Paneer,1.1
+Delhi,Veg,Curd,0.4
+Delhi,Non-Veg,Egg,1.1
+Delhi,Non-Veg,Chicken,0.3
+Delhi,Non-Veg,Fish,2–5
+Chandigarh,Veg,Milk,0.5
+Chandigarh,Veg,Paneer,1.1
+Chandigarh,Veg,Curd,0.4
+Chandigarh,Non-Veg,Egg,1.1
+Chandigarh,Non-Veg,Chicken,0.3
+Chandigarh,Non-Veg,Fish,2–5
+Jammu & Kashmir,Veg,Milk,0.5
+Jammu & Kashmir,Veg,Paneer,1.1
+Jammu & Kashmir,Veg,Curd,0.4
+Jammu & Kashmir,Non-Veg,Mutton,2
+Jammu & Kashmir,Non-Veg,Chicken,0.3
+Jammu & Kashmir,Non-Veg,Fish,2–5
+Ladakh,Veg,Milk,0.5
+Ladakh,Veg,Cheese,1.5
+Ladakh,Veg,Curd,0.4
+Ladakh,Non-Veg,Yak meat,3
+Ladakh,Non-Veg,Egg,1.1
+Ladakh,Non-Veg,Chicken,0.3
+Lakshadweep,Veg,Milk,0.5
+Lakshadweep,Veg,Curd,0.4
+Lakshadweep,Veg,Paneer,1.1
+Lakshadweep,Non-Veg,Fish,2–5
+Lakshadweep,Non-Veg,Tuna,4
+Lakshadweep,Non-Veg,Egg,1.1
+Puducherry,Veg,Milk,0.5
+Puducherry,Veg,Paneer,1.1
+Puducherry,Veg,Curd,0.4
+Puducherry,Non-Veg,Fish,2–5
+Puducherry,Non-Veg,Egg,1.1
+Puducherry,Non-Veg,Chicken,0.3
 Andaman and Nicobar,Veg,Milk,0.5
 Andaman and Nicobar,Veg,Curd,0.4
 Andaman and Nicobar,Veg,Paneer,1.1
 Andaman and Nicobar,Non-Veg,Fish,2–5
 Andaman and Nicobar,Non-Veg,Prawn,1
 Andaman and Nicobar,Non-Veg,Egg,1.1
-Dadra & Nagar Haveli and Daman & Diu (UT),Veg,Milk,0.5
-Dadra & Nagar Haveli and Daman & Diu (UT),Veg,Paneer,1.1
-Dadra & Nagar Haveli and Daman & Diu (UT),Veg,Curd,0.4
-Dadra & Nagar Haveli and Daman & Diu (UT),Non-Veg,Fish,2–5
-Dadra & Nagar Haveli and Daman & Diu (UT),Non-Veg,Chicken,0.3
-Dadra & Nagar Haveli and Daman & Diu (UT),Non-Veg,Egg,1.1
+Dadra and Nagar Haveli,Veg,Milk,0.5
+Dadra and Nagar Haveli,Veg,Paneer,1.1
+Dadra and Nagar Haveli,Veg,Curd,0.4
+Dadra and Nagar Haveli,Non-Veg,Fish,2–5
+Dadra and Nagar Haveli,Non-Veg,Chicken,0.3
+Dadra and Nagar Haveli,Non-Veg,Egg,1.1
+Daman and Diu,Veg,Milk,0.5
+Daman and Diu,Veg,Paneer,1.1
+Daman and Diu,Veg,Curd,0.4
+Daman and Diu,Non-Veg,Fish,2–5
+Daman and Diu,Non-Veg,Chicken,0.3
+Daman and Diu,Non-Veg,Egg,1.1

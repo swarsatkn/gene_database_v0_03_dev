@@ -225,7 +225,7 @@
 
             // Find matching file in availableImages or fallback to .png
             const matchingFile = availableImages.find(f => f.startsWith(`${fileKey}_food.`)) || `${fileKey}_food.png`;
-            const imgPath = `/static/${matchingFile}`;
+            const imgPath = `/static/state_food_images/${matchingFile}`;
 
             return {
                 "hc-key": key,
@@ -387,7 +387,7 @@
                 name: 'Slogan Logo Mobile',
                 enableMouseTracking: false,
                 visible: false,
-                data: [{ name: 'Slogan Mobile', lat: 33, lon: 87.0, marker: { symbol: 'url({{ url_for("static", filename="Slogan_logo.png") }})', width: 75, height: 25 } }],
+                data: [{ name: 'Slogan Mobile', lat: 33, lon: 87.0, marker: { symbol: 'url({{ url_for("static", filename="fmri_gurgaon.png") }})', width: 75, height: 25 } }],
                 dataLabels: { enabled: false }
             }],
             responsive: {
