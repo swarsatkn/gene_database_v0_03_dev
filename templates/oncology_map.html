@@ -49,9 +49,9 @@
 
         #map-container {
             width: 100%;
-            height: 800px;
+            height: 900px;
             border-radius: 12px;
-            overflow: hidden;
+            /* Remove overflow hidden to prevent clipping during deep zoom */
         }
 
         /* Legend */
@@ -436,7 +436,8 @@
                 chart: {
                     map: 'countries/in/custom/in-all-disputed',
                     backgroundColor: '#ffffff',
-                    style: { fontFamily: "'DM Sans', sans-serif" }
+                    style: { fontFamily: "'DM Sans', sans-serif" },
+                    spacing: [20, 20, 20, 20]
                 },
                 title: { text: null },
                 credits: { enabled: false },
