@@ -473,12 +473,15 @@
                             const abbr = this.point.abbr || this.point.displayName;
                             const isTop10 = this.point.isTop10;
                             const abbrColor = isTop10 ? (this.point.rank <= 5 ? '#fff' : '#222') : '#222';
+                            const abbrBg = isTop10 ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.9)';
                             
-                            let html = '<div style="text-align:center;line-height:1.3;">' +
-                                       '<div style="font-size:12px;font-weight:700;color:' + abbrColor + ';margin-bottom:2px;text-shadow: 0 0 2px rgba(255,255,255,0.5);">' + abbr + '</div>';
+                            let html = '<div style="text-align:center;line-height:1.4;">' +
+                                       '<div style="font-size:11px;font-weight:700;color:' + abbrColor + ';' +
+                                       'background:' + abbrBg + ';padding:0px 4px;border-radius:3px;' +
+                                       'display:inline-block;margin-bottom:2px;box-shadow: 0 1px 2px rgba(0,0,0,0.1);">' + abbr + '</div>';
                             
                             if (isTop10) {
-                                html += '<div style="font-size:11px;font-weight:700;color:#fff;background:#1b5e20;' +
+                                html += '<br/><div style="font-size:11px;font-weight:700;color:#fff;background:#1b5e20;' +
                                         'border-radius:4px;padding:1px 6px;display:inline-block;box-shadow: 0 1px 3px rgba(0,0,0,0.2);">' +
                                         this.point.value.toFixed(1) + '</div>';
                             }
@@ -508,12 +511,15 @@
                                         const abbr = this.point.abbr || this.point.displayName;
                                         const isTop10 = this.point.isTop10;
                                         const abbrColor = isTop10 ? (this.point.rank <= 5 ? '#fff' : '#222') : '#222';
+                                        const abbrBg = isTop10 ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.9)';
 
                                         let html = '<div style="text-align:center;line-height:1.2;">' +
-                                                   '<div style="font-size:7px;font-weight:700;color:' + abbrColor + ';margin-bottom:1px;">' + abbr + '</div>';
+                                                   '<div style="font-size:7px;font-weight:700;color:' + abbrColor + ';' +
+                                                   'background:' + abbrBg + ';padding:0px 2px;border-radius:2px;' +
+                                                   'display:inline-block;margin-bottom:1px;">' + abbr + '</div>';
                                         
                                         if (isTop10) {
-                                            html += '<div style="font-size:8px;font-weight:700;color:#fff;background:#1b5e20;' +
+                                            html += '<br/><div style="font-size:8px;font-weight:700;color:#fff;background:#1b5e20;' +
                                                     'border-radius:3px;padding:0px 3px;display:inline-block;">' +
                                                     this.point.value.toFixed(1) + '</div>';
                                         }
