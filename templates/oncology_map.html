@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='Hemegene.gif') }}">
+    <title>Hemegene - Oncology Regional Burden</title>
+    <meta name="description"
+        content="State-wise oncology incidence burden across India — percentage contributions by region.">
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: #f7f8fa;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+        }
+
+        .page-card {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 8px 40px rgba(60, 60, 80, 0.10);
+            padding: 36px 36px 28px 36px;
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+
+        .page-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+        }
+
+        .page-subtitle {
+            color: #666;
+            font-size: 0.97rem;
+            margin-bottom: 28px;
+        }
+
+        #map-container {
+            width: 100%;
+            height: 800px;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        /* Legend */
+        .gradient-legend {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 18px;
+            flex-wrap: wrap;
+        }
+
+        .gradient-bar {
+            height: 14px;
+            width: 260px;
+            border-radius: 7px;
+            background: linear-gradient(to right, #b5e48c, #f9c74f, #e63946);
+            border: 1px solid #e0e0e0;
+            flex-shrink: 0;
+        }
+
+        .legend-label {
+            font-size: 0.8rem;
+            color: #555;
+            white-space: nowrap;
+        }
+
+        /* Data table */
+        .data-table-section {
+            margin-top: 36px;
+        }
+
+        .data-table-section h5 {
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 14px;
+        }
+
+        .table th {
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            color: #888;
+            letter-spacing: 0.04em;
+            background: #f7f8fa;
+            border-top: none;
+        }
+
+        .table td {
+            font-size: 0.9rem;
+            vertical-align: middle;
+        }
+
+        .contrib-bar-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .contrib-bar {
+            height: 8px;
+            border-radius: 4px;
+            background: linear-gradient(to right, #b5e48c, #f9c74f, #e63946);
+        }
+
+        @media (max-width: 768px) {
+            .page-card {
+                padding: 18px;
+            }
+
+            #map-container {
+                height: 520px;
+            }
+
+            .gradient-bar {
+                width: 160px;
+            }
+        }
+
+        /* Loading overlay */
+        #loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #f7f8fa;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: opacity 0.5s ease;
+        }
+
+        .spinner {
+            width: 64px;
+            height: 64px;
+            border: 5px solid #ddd;
+            border-top-color: #e63946;
+            border-radius: 50%;
+            animation: spin 0.9s linear infinite;
+            margin-bottom: 18px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loading-text {
+            color: #555;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+    </style>
+
+    <!-- Highcharts -->
+    <script src="https://cdn.jsdelivr.net/npm/highcharts@11/highmaps.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/@highcharts/map-collection/countries/in/custom/in-all-disputed.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.11.0/proj4.js"></script>
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-overlay">
+        <div class="spinner"></div>
+        <div class="loading-text">Loading Oncology Data...</div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #DBBCDF; padding: 0.4rem 0.5rem;">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="/" style="flex-shrink: 0;">
+                <div
+                    style="background-color: white; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); overflow: hidden; flex-shrink: 0;">
+                    <img src="{{ url_for('static', filename='Hemegene.gif') }}" alt="Hemegene Logo"
+                        style="height: 30px; width: auto;">
+                </div>
+                <span style="font-weight: 500; font-size: 1rem;">Hemegene</span>
+            </a>
+            <div class="d-flex align-items-center ms-auto me-2 order-lg-3">
+                <div
+                    style="background-color: white; padding: 3px 7px; border-radius: 6px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <a href="https://www.fortishealthcare.com/location/fortis-memorial-research-institute-gurgaon"
+                        target="_blank">
+                        <img src="{{ url_for('static', filename='fmri_gurgaon.png') }}" alt="Fortis Logo"
+                            style="height: 28px; width: auto;">
+                    </a>
+                </div>
+            </div>
+            <button class="navbar-toggler order-lg-4" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                aria-label="Toggle navigation"
+                style="padding: 0.2rem 0.4rem; font-size: 0.8rem; border: 1px solid rgba(112,74,116,0.3);">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse order-lg-2" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/about">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/nutrition-map">Nutrition Map</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/oncology-map">Oncology Map</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container" style="max-width: 1200px;">
+        <div class="page-card">
+            <h2 class="page-title">Oncology Regional Burden</h2>
+            <p class="page-subtitle">State-wise percentage contribution to national cancer incidence (2019–2022 average)
+            </p>
+
+            <div id="map-container"></div>
+
+
+
+            <!-- Data Table -->
+            <div class="data-table-section">
+                <h5>State-wise Data</h5>
+                <div style="overflow-x: auto;">
+                    <table class="table table-hover table-sm align-middle" id="onco-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>State / UT</th>
+                                <th>2019</th>
+                                <th>2020</th>
+                                <th>2021</th>
+                                <th>2022</th>
+                                <th>Average</th>
+                                <th>% Contribution</th>
+                                <th style="min-width:140px;"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-light mt-auto">
+        <div class="container py-4">
+            <div class="text-center" style="margin-bottom: 20px;">
+                <p style="color: #704a74; margin-bottom: 12px; font-weight: 500;">Developed and maintained by</p>
+                <div class="d-flex justify-content-center align-items-center gap-4">
+                    <a href="https://academic.oup.com/intqhc/article-abstract/37/1/mzaf016/8026021" target="_blank">
+                        <img src="{{ url_for('static', filename='HemeTEAM.png') }}" alt="HemeTeam Logo"
+                            style="height: 50px; width: auto;">
+                    </a>
+                    <a href="https://www.jivana.org.in" target="_blank">
+                        <img src="{{ url_for('static', filename='JIVANA-blacklogo.png') }}" alt="Jivana AI Logo"
+                            style="height: 50px; width: auto;">
+                    </a>
+                </div>
+            </div>
+            <div class="text-center" id="contact">
+                <h5 style="color: #704a74; font-weight: 700;">Contact Us</h5>
+                <p style="color: gray; margin-bottom: 4px;">For inquiries: <a href="mailto:support@jivana.org.in"
+                        style="color: gray;">support@jivana.org.in</a></p>
+                <p style="color: gray; margin-bottom: 0;">&#169; Hemegene</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Data from Flask
+        const oncoData = {{ onco_data | tojson | safe }};
+
+        // Map state names to Highcharts hc-key values
+        const stateKeyMap = {
+            'Jammu & Kashmir': 'jammu and kashmir',
+            'Ladakh': 'ladakh',
+            'Himachal Pradesh': 'himachal pradesh',
+            'Punjab': 'punjab',
+            'Chandigarh': 'chandigarh',
+            'Uttaranchal': 'uttarakhand',
+            'Haryana': 'haryana',
+            'Delhi': 'nct of delhi',
+            'Rajasthan': 'rajasthan',
+            'Uttar Pradesh': 'uttar pradesh',
+            'Bihar': 'bihar',
+            'Sikkim': 'sikkim',
+            'Arunachal Pradesh': 'arunanchal pradesh',
+            'Nagaland': 'nagaland',
+            'Manipur': 'manipur',
+            'Mizoram': 'mizoram',
+            'Tripura': 'tripura',
+            'Meghalaya': 'meghalaya',
+            'Assam': 'assam',
+            'West Bengal': 'west bengal',
+            'Jharkhand': 'jharkhand',
+            'Orissa': 'odisha',
+            'Chhattisgarh': 'chhattisgarh',
+            'Madhya Pradesh': 'madhya pradesh',
+            'Gujarat': 'gujarat',
+            'Daman': 'daman and diu',
+            'Dadra and Nagar Haveli': 'dadara and nagar havelli',
+            'Maharashtra': 'maharashtra',
+            'Telangana': 'telangana',
+            'Andhra Pradesh': 'andhra pradesh',
+            'Karnataka': 'karnataka',
+            'Goa': 'goa',
+            'Lakshadweep': 'lakshadweep',
+            'Kerala': 'kerala',
+            'Tamil Nadu': 'tamil nadu',
+            'Pondicherry': 'puducherry',
+            'Andaman and Nicobar Islands': 'andaman and nicobar',
+        };
+
+        // Short abbreviations for display on map
+        const stateAbbr = {
+            'Jammu & Kashmir':             'J&K',
+            'Ladakh':                      'LAD',
+            'Himachal Pradesh':            'HP',
+            'Punjab':                      'PB',
+            'Chandigarh':                  'CHD',
+            'Uttaranchal':                 'UK',
+            'Haryana':                     'HR',
+            'Delhi':                       'DL',
+            'Rajasthan':                   'RJ',
+            'Uttar Pradesh':               'UP',
+            'Bihar':                       'BR',
+            'Sikkim':                      'SK',
+            'Arunachal Pradesh':           'AR',
+            'Nagaland':                    'NL',
+            'Manipur':                     'MN',
+            'Mizoram':                     'MZ',
+            'Tripura':                     'TR',
+            'Meghalaya':                   'ML',
+            'Assam':                       'AS',
+            'West Bengal':                 'WB',
+            'Jharkhand':                   'JH',
+            'Orissa':                      'OD',
+            'Chhattisgarh':               'CG',
+            'Madhya Pradesh':              'MP',
+            'Gujarat':                     'GJ',
+            'Daman':                       'DN',
+            'Dadra and Nagar Haveli':      'DNH',
+            'Maharashtra':                 'MH',
+            'Telangana':                   'TS',
+            'Andhra Pradesh':              'AP',
+            'Karnataka':                   'KA',
+            'Goa':                         'GA',
+            'Lakshadweep':                 'LD',
+            'Kerala':                      'KL',
+            'Tamil Nadu':                  'TN',
+            'Pondicherry':                 'PY',
+            'Andaman and Nicobar Islands': 'A&N',
+        };
+
+        // Build series data
+        const seriesData = [];
+        for (const [stateName, info] of Object.entries(oncoData)) {
+            const hcKey = stateKeyMap[stateName] || stateName.toLowerCase();
+            seriesData.push({
+                'hc-key': hcKey,
+                value: info.incidence_rate,
+                displayName: stateName,
+                abbr: stateAbbr[stateName] || stateName,
+                average: info.average,
+                contribution: info.contribution
+            });
+        }
+
+        // Sort by Incidence Rate
+        const sortedByIncidence = [...seriesData].sort((a, b) => b.value - a.value);
+
+        // Top 10 Colors - Red intensity gradient
+        const top10Colors = [
+            '#7f1d1d', '#991b1b', '#b91c1c', '#dc2626', '#ef4444',
+            '#f87171', '#fca5a5', '#fecaca', '#fee2e2', '#fff1f1'
+        ];
+
+        seriesData.forEach(d => {
+            const rank = sortedByIncidence.findIndex(s => s['hc-key'] === d['hc-key']);
+            if (rank < 10 && d.value > 0) {
+                d.color = top10Colors[rank];
+                d.isTop10 = true;
+                d.rank = rank + 1;
+            } else {
+                d.color = '#ffffff';
+                d.isTop10 = false;
+            }
+        });
+
+        // Render table
+        const tbody = document.getElementById('table-body');
+        // Still sort by contribution or incidence? I'll use incidence as it's the new focus
+        sortedByIncidence.forEach((d, i) => {
+            const rate = d.value.toFixed(1);
+            const barW = Math.min(100, (d.value / 140) * 100).toFixed(1); // max ~135.3
+            const orig = Object.entries(oncoData).find(([k, v]) => v.average === d.average && stateKeyMap[k] === d['hc-key']);
+            const raw = orig ? orig[1] : {};
+            tbody.innerHTML += `
+                <tr>
+                    <td class="text-muted">${i + 1}</td>
+                    <td><strong>${d.displayName}</strong></td>
+                    <td>${(raw['2019'] || '').toLocaleString()}</td>
+                    <td>${(raw['2020'] || '').toLocaleString()}</td>
+                    <td>${(raw['2021'] || '').toLocaleString()}</td>
+                    <td>${(raw['2022'] || '').toLocaleString()}</td>
+                    <td>${d.average.toLocaleString()}</td>
+                    <td><strong>${rate}</strong></td>
+                    <td>
+                        <div class="contrib-bar-wrap">
+                            <div class="contrib-bar" style="width:${barW}%; background: ${d.isTop10 ? d.color : '#eee'}"></div>
+                        </div>
+                    </td>
+                </tr>`;
+        });
+
+        // Highcharts Map
+        document.addEventListener('DOMContentLoaded', function () {
+            Highcharts.mapChart('map-container', {
+                chart: {
+                    map: 'countries/in/custom/in-all-disputed',
+                    backgroundColor: '#ffffff',
+                    style: { fontFamily: "'DM Sans', sans-serif" }
+                },
+                title: { text: null },
+                credits: { enabled: false },
+                legend: { enabled: false },
+                accessibility: { enabled: false },
+                mapNavigation: {
+                    enabled: true,
+                    enableMouseWheelZoom: true,
+                    buttonOptions: { verticalAlign: 'bottom', align: 'right' }
+                },
+                tooltip: {
+                    formatter: function() {
+                        return '<b>' + this.point.displayName + '</b><br/>' +
+                               (this.point.isTop10 ? 'Incidence Rate: ' + this.point.value : 'Abbreviation: ' + this.point.abbr);
+                    }
+                },
+                series: [{
+                    data: seriesData,
+                    keys: ['hc-key', 'value'],
+                    joinBy: 'hc-key',
+                    name: 'Cancer Burden',
+                    nullColor: '#ffffff',
+                    borderColor: '#aaaaaa',
+                    borderWidth: 1.0,
+                    states: {
+                        hover: { brightness: 0.07 }
+                    },
+                    dataLabels: {
+                        enabled: true,
+                        formatter: function () {
+                            const abbr = this.point.abbr || this.point.displayName;
+                            const isTop10 = this.point.isTop10;
+                            const abbrColor = isTop10 ? (this.point.rank <= 5 ? '#fff' : '#222') : '#222';
+                            
+                            let html = '<div style="text-align:center;line-height:1.3;">' +
+                                       '<div style="font-size:11px;font-weight:700;color:' + abbrColor + ';margin-bottom:2px;">' + abbr + '</div>';
+                            
+                            if (isTop10) {
+                                html += '<div style="font-size:10.5px;font-weight:700;color:#fff;background:#1b5e20;' +
+                                        'border-radius:4px;padding:1px 5px;display:inline-block;">' +
+                                        this.point.value.toFixed(1) + '</div>';
+                            }
+                            
+                            html += '</div>';
+                            return html;
+                        },
+                        useHTML: true,
+                        backgroundColor: 'rgba(255,255,255,0.0)',
+                        borderRadius: 0,
+                        padding: 2,
+                        style: {
+                            fontFamily: "'DM Sans', sans-serif",
+                            textOutline: 'none'
+                        }
+                    }
+                }],
+                responsive: {
+                    rules: [{
+                        condition: { maxWidth: 768 },
+                        chartOptions: {
+                            series: [{
+                                dataLabels: {
+                                    formatter: function () {
+                                        const abbr = this.point.abbr || this.point.displayName;
+                                        const isTop10 = this.point.isTop10;
+                                        const abbrColor = isTop10 ? (this.point.rank <= 5 ? '#fff' : '#222') : '#222';
+
+                                        let html = '<div style="text-align:center;line-height:1.2;">' +
+                                                   '<div style="font-size:6px;font-weight:700;color:' + abbrColor + ';margin-bottom:1px;">' + abbr + '</div>';
+                                        
+                                        if (isTop10) {
+                                            html += '<div style="font-size:7px;font-weight:700;color:#fff;background:#1b5e20;' +
+                                                    'border-radius:3px;padding:0px 3px;display:inline-block;">' +
+                                                    this.point.value.toFixed(1) + '</div>';
+                                        }
+                                        
+                                        html += '</div>';
+                                        return html;
+                                    },
+                                    padding: 1
+                                }
+                            }]
+                        }
+                    }]
+                }
+            });
+
+            // Hide loading overlay
+            setTimeout(() => {
+                const overlay = document.getElementById('loading-overlay');
+                if (overlay) {
+                    overlay.style.opacity = '0';
+                    setTimeout(() => overlay.remove(), 500);
+                }
+            }, 700);
+        });
+    </script>
+</body>
+
+</html>

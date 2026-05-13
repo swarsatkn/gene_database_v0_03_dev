@@ -110,6 +110,41 @@ def nutrition_map():
                          state_nutrition_data=state_nutrition_data, 
                          available_food_images=available_images)
 
+# Oncology Map route
+ONCO_DATA = os.path.join(os.path.dirname(__file__), 'onco.xlsx')
+
+def get_onco_data():
+    try:
+        df = pd.read_excel(ONCO_DATA)
+        # Columns: State, 2019, 2020, 2021, 2022, Average, Contribution
+        onco = {}
+        for _, row in df.iterrows():
+            state = str(row.get('State', '')).strip()
+            if not state or state.lower() == 'total' or state.lower() == 'nan':
+                continue
+            contribution = float(row.get('Contribution', 0))
+            incidence_rate = float(row.get('IncidenceRate', 0))
+            average = float(row.get('Average', 0))
+            onco[state] = {
+                'contribution': round(contribution, 3),
+                'incidence_rate': round(incidence_rate, 1),
+                'average': int(average),
+                '2019': int(row.get(2019, 0)),
+                '2020': int(row.get(2020, 0)),
+                '2021': int(row.get(2021, 0)),
+                '2022': int(row.get(2022, 0)),
+            }
+        return onco
+    except Exception as e:
+        print("Error loading oncology data:", e)
+        return {}
+
+@app.route('/oncology-map', methods=['GET'])
+def oncology_map():
+    onco_data = get_onco_data()
+    return render_template('oncology_map.html', onco_data=onco_data)
+
+
 # Homepage route
 @app.route('/', methods=['GET', 'POST'])
 def home():
