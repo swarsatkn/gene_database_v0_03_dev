@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, send_from_directory
 import sqlite3
 import os
 from datetime import datetime
@@ -188,6 +188,15 @@ def gene_info(gene_name, uid):
     cursor.close()
     conn.close()
     return render_template('gene_info.html', gene=gene_data)
+
+# PWA Routes
+@app.route('/manifest.json')
+def serve_manifest():
+    return send_from_directory(os.path.join(app.root_path, 'static'), 'manifest.json')
+
+@app.route('/sw.js')
+def serve_sw():
+    return send_from_directory(os.path.join(app.root_path, 'static'), 'sw.js')
 
 
 if __name__ == '__main__':
